@@ -4,7 +4,7 @@
 Rota Health is an Android shift scheduling app for small clinics with 5 to 40 shift workers. It gives clinics one trusted shift schedule, approved swaps, sleep-respecting alerts, offline shift access, and a per-seat bill where mid-cycle additions cost only the days left in the month. Three roles use the app: Owner (creates clinic, pays bills, manages plans and seats), Manager (drafts and publishes shifts, approves swaps), and Staff (views shifts offline, requests swaps, sets quiet hours). Tagline: "Shift scheduling for clinics that never close." Version 1 is Android only, built with Expo so iOS can follow later without a rewrite. (PRD 1, 2, 3, 25)
 
 ## 2. Source of truth and how to use it
-- `docs/PRD.md` (version 2, located at `Docs/rota-health-prd-v2.md` in this repository) is the sole source of truth.
+- `docs/PRD.md` is the sole source of truth.
 - Read specific PRD sections before starting work:
   - API endpoints, request validation, error shapes, idempotency: PRD 10
   - Billing, proration formulas, Flutterwave checkout, webhooks, ledger: PRD 11
@@ -53,11 +53,11 @@ Agents must use the locked tech stack exactly. Never add an alternative or a new
 - Hosting: Railway (API service and worker service) (PRD 16)
 
 ## 4. Repo layout
-The repository is structured as a monorepo (PRD 23):
+The repository is structured as a monorepo. Decision: Monorepo uses npm workspaces (PRD 23).
 - `/app`: React Native Expo mobile application.
 - `/server`: Node.js Express backend and BullMQ worker.
-- `/docs`: Documentation, performance logs, test results, and architecture diagrams.
-- `/docs/decisions`: Architecture Decision Records (ADRs).
+- `/scripts`: Operational, maintenance, and verification scripts (PRD 11.6, 15.4, 16.7, 16.9, 18.2).
+- `/docs`: Documentation, architecture diagrams, decision records, and performance reports.
 - `/load-tests`: k6 load test scripts and configuration.
 
 Detailed structure (unconfirmed folders inside `/app` and `/server` are marked "proposed"):
@@ -75,8 +75,9 @@ Detailed structure (unconfirmed folders inside `/app` and `/server` are marked "
 │   ├── app.json                         # Expo configuration
 │   └── package.json
 ├── server/                              # Node.js backend
-│   ├── prisma/                          # Prisma schema and migrations (PRD 9)
+│   ├── prisma/                          # Prisma schema, migrations, and seed scripts (PRD 9)
 │   │   ├── schema.prisma
+│   │   ├── seed-activity.ts             # 42,000-row activity seed for feed load test (PRD 18.2, 23)
 │   │   └── migrations/
 │   ├── src/
 │   │   ├── api/                         # Express API server (PRD 16)
@@ -84,20 +85,27 @@ Detailed structure (unconfirmed folders inside `/app` and `/server` are marked "
 │   │   │   └── routes/                  # Route handlers under /v1 (PRD 10)
 │   │   ├── billing/                     # Billing and proration logic (PRD 11)
 │   │   │   └── proration.ts             # Pure prorate() function (PRD 11)
+│   │   ├── db/                          # Database clients and read replica routing (PRD 16.2)
+│   │   │   └── routing.ts               # Read replica client and RYW routing logic (PRD 16.2, 19)
+│   │   ├── i18n/                        # Internationalization strings (PRD 13.1, 26.1)
+│   │   │   └── en.json                  # English push notification strings (PRD 13.1, 26.1)
 │   │   ├── workers/                     # BullMQ worker process and queue handlers (PRD 16.7)
 │   │   │   ├── outbox-relay.ts          # Outbox relay runner (PRD 12.3)
 │   │   │   └── notification-worker.ts   # Push worker with quiet hours (PRD 12.2)
 │   │   ├── lib/                         # Shared Prisma clients, Redis, logger (PRD 16) (proposed)
 │   │   └── index.ts                     # Server entry point (proposed)
-│   ├── scripts/                         # Operational and CI verification scripts (PRD 11.6, 16.9)
-│   │   ├── rebuild-subscription.ts      # Rebuild subscription from ledger (PRD 11.6)
-│   │   ├── trace-payment.ts             # Trace payment by txRef (PRD 16.9)
-│   │   └── check-bundle-secrets.sh      # Scan Android bundle for leaked secrets (PRD 15.4)
-│   ├── docker-compose.test.yml          # CI Postgres shards, delayed replica, PgBouncer (PRD 19)
 │   └── package.json
+├── scripts/                             # Operational, maintenance, and verification scripts (PRD 11.6, 15.4, 16.7, 16.9, 18.2)
+│   ├── trace-payment.ts                 # Trace payment by txRef across logs and tables (PRD 16.9)
+│   ├── rebuild-subscription.ts          # Rebuild subscription state from ledger entries (PRD 11.6)
+│   ├── clean-seed.ts                    # Delete load test seed rows from database (PRD 18.2)
+│   ├── check-bundle-secrets.sh          # Scan Android bundle for leaked secrets (PRD 15.4)
+│   ├── replay-failed.ts                 # Move failed queue jobs back to waiting (PRD 16.7)
+│   └── refund.ts                        # Manual refund script (PRD 11.6)
 ├── docs/                                # Documentation (PRD 23)
 │   ├── PRD.md                           # Product Requirements Document (source of truth)
 │   ├── ARCHITECTURE.md                  # System architecture with Mermaid diagram (PRD 16, 23)
+│   ├── architecture.mmd                 # Mermaid diagram source (PRD 16)
 │   ├── SECURITY.md                      # Threat model and mitigations (PRD 15.5)
 │   ├── SHARDING.md                      # Sharding design and saga details (PRD 16.3)
 │   ├── STATE.md                         # Client state map (PRD 14)
@@ -107,7 +115,8 @@ Detailed structure (unconfirmed folders inside `/app` and `/server` are marked "
 ├── load-tests/                          # k6 load testing suite (PRD 18)
 │   ├── k6-feed-load.js                  # Feed load test script (PRD 18)
 │   └── REPORT.md                        # Load test results report (PRD 18, 23)
-├── package.json                         # Monorepo root package.json (proposed)
+├── docker-compose.test.yml              # CI Postgres shards, delayed replica, PgBouncer (PRD 19)
+├── package.json                         # Monorepo root package.json
 └── AGENTS.md                            # Agent instructions and rules
 ```
 
@@ -122,8 +131,7 @@ The commands below are best guesses for the scaffolded project.
 | Start mobile app dev server | `npx expo start --cwd app` | TODO: confirm once scaffolded |
 | Run server test suite | `npm test --workspace=server` | TODO: confirm once scaffolded |
 | Run app unit tests | `npm test --workspace=app` | TODO: confirm once scaffolded |
-| Run migrations (Shard A) | `npx prisma migrate deploy --schema=server/prisma/schema.prisma` with `DATABASE_URL=$DIRECT_URL_A` | TODO: confirm once scaffolded |
-| Run migrations (Shard B) | `npx prisma migrate deploy --schema=server/prisma/schema.prisma` with `DATABASE_URL=$DIRECT_URL_B` | TODO: confirm once scaffolded |
+| Run migrations (both shards) | `npm run db:migrate --workspace=server` (runs `prisma migrate deploy` once for shard A and once for shard B, setting each shard's `DATABASE_URL` and `DIRECT_URL`, as in PRD 9 and 16.1) | TODO: confirm once scaffolded |
 | Seed databases (both shards) | `npm run db:seed --workspace=server` | TODO: confirm once scaffolded |
 | Lint codebase | `npm run lint` | TODO: confirm once scaffolded |
 | Typecheck TypeScript | `npm run typecheck` | TODO: confirm once scaffolded |
