@@ -1,0 +1,815 @@
+/**
+ * ============================================================================
+ * ROTA HEALTH DESIGN SYSTEM - COMPLETE DESIGN TOKENS BUNDLE
+ * ============================================================================
+ * 
+ * Auto-generated from Figma Tokens Studio: design-tokens.tokens.json
+ * Generation Date: 2026-10-09T23:59:14.776Z
+ * 
+ * ----------------------------------------------------------------------------
+ * ARCHITECTURE OVERVIEW:
+ * ----------------------------------------------------------------------------
+ * 1. PRIMITIVES (Tier 1): Foundational color palette (Key colors, Tonal 0-100).
+ *    🛑 DO NOT USE DIRECTLY ON UI COMPONENTS.
+ * 
+ * 2. COLOR ROLES (Tier 2): Semantic UI tokens (primary, surface, error, etc.).
+ *    ✅ USE THESE FOR ALL UI STYLES.
+ *    Color roles reference primitives via CSS variables with fallback.
+ * 
+ * 3. SPACING: Consistent 8-point & 4-point spacing scale.
+ * 4. TYPOGRAPHY: Modular type scale with DM Sans typography styles.
+ * 5. EFFECTS: Elevation drop-shadow levels (soft, medium, hard).
+ * 6. UTILITIES: Ready-to-use CSS classes for typography and shadows.
+ * ============================================================================
+ */
+
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: PRIMITIVE FOUNDATION PALETTES
+ * ============================================================================
+ * 
+ * 🛑 CRITICAL ARCHITECTURAL RULE:
+ * ----------------------------------------------------------------------------
+ * These variables represent raw foundation colors and tonal palette stops.
+ * DO NOT APPLY PRIMITIVE COLORS DIRECTLY TO UI COMPONENTS OR LAYOUTS!
+ * 
+ * Primitives serve as the foundational palette used exclusively to feed the
+ * semantic Color Roles. Applying primitives directly violates design system
+ * integrity and breaks multi-theming, dark mode, and accessibility contrast.
+ * 
+ * For UI elements, ALWAYS use the semantic Color Roles (--color-role-* / --color-*).
+ * ============================================================================
+ */
+
+:root {
+  /* --------------------------------------------------------------------------
+   * 1. KEY COLORS (Brand Anchors)
+   * -------------------------------------------------------------------------- */
+  --primitive-color-key-primary: #004ed4ff; /* primary key color */
+  --primitive-color-key-secondary: #003eaaff; /* secondary key color */
+  --primitive-color-key-tertiary: #005efeff; /* tertiary key color */
+  --primitive-color-key-neutral: #16181dff; /* neutral key color */
+  --primitive-color-key-neutral-variant: #38393aff; /* neutral variant key color */
+  --primitive-color-key-error: #c51707ff; /* error key color */
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: PRIMARY COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-primary-0: #000000ff;
+  --primitive-color-primary-10: #001333ff;
+  --primitive-color-primary-20: #002566ff;
+  --primitive-color-primary-30: #003899ff;
+  --primitive-color-primary-40: #004bccff;
+  --primitive-color-primary-50: #005dffff;
+  --primitive-color-primary-60: #337effff;
+  --primitive-color-primary-70: #669effff;
+  --primitive-color-primary-80: #99beffff;
+  --primitive-color-primary-90: #ccdfffff;
+  --primitive-color-primary-95: #e5efffff;
+  --primitive-color-primary-98: #f5f9ffff;
+  --primitive-color-primary-99: #fafcffff;
+  --primitive-color-primary-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: SECONDARY COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-secondary-0: #000000ff;
+  --primitive-color-secondary-10: #001c4cff;
+  --primitive-color-secondary-20: #002e80ff;
+  --primitive-color-secondary-30: #003eaaff;
+  --primitive-color-secondary-40: #004ed6ff;
+  --primitive-color-secondary-50: #005dffff;
+  --primitive-color-secondary-60: #3d84ffff;
+  --primitive-color-secondary-70: #70a5ffff;
+  --primitive-color-secondary-80: #a3c5ffff;
+  --primitive-color-secondary-90: #d6e5ffff;
+  --primitive-color-secondary-95: #ebf2ffff;
+  --primitive-color-secondary-98: #f5f9ffff;
+  --primitive-color-secondary-99: #fafcffff;
+  --primitive-color-secondary-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: TERTIARY COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-tertiary-0: #000000ff;
+  --primitive-color-tertiary-10: #001333ff;
+  --primitive-color-tertiary-20: #002666ff;
+  --primitive-color-tertiary-30: #003999ff;
+  --primitive-color-tertiary-40: #004bccff;
+  --primitive-color-tertiary-50: #005efeff;
+  --primitive-color-tertiary-60: #337effff;
+  --primitive-color-tertiary-70: #669fffff;
+  --primitive-color-tertiary-80: #99bfffff;
+  --primitive-color-tertiary-90: #ccdfffff;
+  --primitive-color-tertiary-95: #e5efffff;
+  --primitive-color-tertiary-98: #f5f9ffff;
+  --primitive-color-tertiary-99: #fafcffff;
+  --primitive-color-tertiary-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: NEUTRAL COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-neutral-0: #000000ff;
+  --primitive-color-neutral-10: #16181dff;
+  --primitive-color-neutral-20: #2c303aff;
+  --primitive-color-neutral-30: #424857ff;
+  --primitive-color-neutral-40: #586074ff;
+  --primitive-color-neutral-50: #6e7891ff;
+  --primitive-color-neutral-60: #8b93a7ff;
+  --primitive-color-neutral-70: #a8aebdff;
+  --primitive-color-neutral-80: #c5c9d3ff;
+  --primitive-color-neutral-90: #e2e4e9ff;
+  --primitive-color-neutral-95: #f0f1f4ff;
+  --primitive-color-neutral-98: #f9fafbff;
+  --primitive-color-neutral-99: #fcfcfdff;
+  --primitive-color-neutral-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: NEUTRAL VARIANT COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-neutral-variant-0: #000000ff;
+  --primitive-color-neutral-variant-10: #19191aff;
+  --primitive-color-neutral-variant-20: #323334ff;
+  --primitive-color-neutral-variant-30: #4b4c4eff;
+  --primitive-color-neutral-variant-40: #646668ff;
+  --primitive-color-neutral-variant-50: #7d8082ff;
+  --primitive-color-neutral-variant-60: #97999bff;
+  --primitive-color-neutral-variant-70: #b1b2b4ff;
+  --primitive-color-neutral-variant-80: #cbcccdff;
+  --primitive-color-neutral-variant-90: #e5e5e6ff;
+  --primitive-color-neutral-variant-95: #f2f2f2ff;
+  --primitive-color-neutral-variant-98: #fafafaff;
+  --primitive-color-neutral-variant-99: #fcfcfcff;
+  --primitive-color-neutral-variant-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: ERROR COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-error-0: #000000ff;
+  --primitive-color-error-10: #310602ff;
+  --primitive-color-error-20: #630b03ff;
+  --primitive-color-error-30: #ad1406ff;
+  --primitive-color-error-40: #c51707ff;
+  --primitive-color-error-50: #f71c08ff;
+  --primitive-color-error-60: #f84a3aff;
+  --primitive-color-error-70: #fb8e84ff;
+  --primitive-color-error-80: #fcada6ff;
+  --primitive-color-error-90: #fdd2ceff;
+  --primitive-color-error-95: #fee8e6ff;
+  --primitive-color-error-98: #fff6f5ff;
+  --primitive-color-error-99: #fffafaff;
+  --primitive-color-error-100: #ffffffff;
+}
+
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: SEMANTIC COLOR ROLES (UI LAYER)
+ * ============================================================================
+ * 
+ * ✅ ARCHITECTURAL USAGE RULE:
+ * ----------------------------------------------------------------------------
+ * THESE ARE THE OFFICIAL COLORS TO APPLY ON THE UI!
+ * 
+ * Each role expresses functional intent (backgrounds, surfaces, foregrounds,
+ * accents, interactive states, and error alerts).
+ * 
+ * Every Color Role references its foundational Primitive token via CSS var(),
+ * ensuring dynamic theming, brand swaps, and dark mode adaptation.
+ * A raw hex fallback is provided for maximum resilience.
+ * 
+ * Usage Examples:
+ *   background-color: var(--color-primary);
+ *   color: var(--color-on-primary);
+ *   border: 1px solid var(--color-surface-variant);
+ *   background: var(--color-surface);
+ * ============================================================================
+ */
+
+:root {
+  /* ==========================================================================
+   * PRIMARY ROLES (Main interactive brand accents & primary surfaces)
+   * ========================================================================== */
+  /* --------------------------------------------------------------------------
+   * PRIMARY PALETTE ROLES
+   * -------------------------------------------------------------------------- */
+  /* Role: primary -> Maps to: primitives colors.key color group.primary key color */
+  --color-role-primary: var(--primitive-color-key-primary, #004ed4ff);
+  --color-primary: var(--color-role-primary);
+
+  /* Role: on primary -> Maps to: primitives colors.primary color palette.primary100 */
+  --color-role-on-primary: var(--primitive-color-primary-100, #ffffffff);
+  --color-on-primary: var(--color-role-on-primary);
+
+  /* Role: primary container -> Maps to: primitives colors.primary color palette.primary90 */
+  --color-role-primary-container: var(--primitive-color-primary-90, #ccdfffff);
+  --color-primary-container: var(--color-role-primary-container);
+
+  /* Role: on primary container -> Maps to: primitives colors.primary color palette.primary30 */
+  --color-role-on-primary-container: var(--primitive-color-primary-30, #003899ff);
+  --color-on-primary-container: var(--color-role-on-primary-container);
+
+  /* --------------------------------------------------------------------------
+   * SECONDARY PALETTE ROLES
+   * -------------------------------------------------------------------------- */
+  /* Role: secondary -> Maps to: primitives colors.key color group.secondary key color */
+  --color-role-secondary: var(--primitive-color-key-secondary, #003eaaff);
+  --color-secondary: var(--color-role-secondary);
+
+  /* Role: on secondary -> Maps to: primitives colors.secondary color palette.secondary100 */
+  --color-role-on-secondary: var(--primitive-color-secondary-100, #ffffffff);
+  --color-on-secondary: var(--color-role-on-secondary);
+
+  /* Role: secondary container -> Maps to: primitives colors.secondary color palette.secondary90 */
+  --color-role-secondary-container: var(--primitive-color-secondary-90, #d6e5ffff);
+  --color-secondary-container: var(--color-role-secondary-container);
+
+  /* Role: on secondary container -> Maps to: primitives colors.secondary color palette.secondary30 */
+  --color-role-on-secondary-container: var(--primitive-color-secondary-30, #003eaaff);
+  --color-on-secondary-container: var(--color-role-on-secondary-container);
+
+  /* --------------------------------------------------------------------------
+   * TERTIARY PALETTE ROLES
+   * -------------------------------------------------------------------------- */
+  /* Role: tertiary -> Maps to: primitives colors.key color group.tertiary key color */
+  --color-role-tertiary: var(--primitive-color-key-tertiary, #005efeff);
+  --color-tertiary: var(--color-role-tertiary);
+
+  /* Role: on tertiary -> Maps to: primitives colors.tertiary color palette.tertiary100 */
+  --color-role-on-tertiary: var(--primitive-color-tertiary-100, #ffffffff);
+  --color-on-tertiary: var(--color-role-on-tertiary);
+
+  /* Role: tertiary container -> Maps to: primitives colors.tertiary color palette.tertiary90 */
+  --color-role-tertiary-container: var(--primitive-color-tertiary-90, #ccdfffff);
+  --color-tertiary-container: var(--color-role-tertiary-container);
+
+  /* Role: on tertiary container -> Maps to: primitives colors.tertiary color palette.tertiary30 */
+  --color-role-on-tertiary-container: var(--primitive-color-tertiary-30, #003999ff);
+  --color-on-tertiary-container: var(--color-role-on-tertiary-container);
+
+  /* --------------------------------------------------------------------------
+   * ERROR & FEEDBACK ROLES
+   * -------------------------------------------------------------------------- */
+  /* Role: error -> Maps to: primitives colors.key color group.error key color */
+  --color-role-error: var(--primitive-color-key-error, #c51707ff);
+  --color-error: var(--color-role-error);
+
+  /* Role: on error -> Maps to: primitives colors.error color palette.error100 */
+  --color-role-on-error: var(--primitive-color-error-100, #ffffffff);
+  --color-on-error: var(--color-role-on-error);
+
+  /* Role: error container -> Maps to: primitives colors.error color palette.error90 */
+  --color-role-error-container: var(--primitive-color-error-90, #fdd2ceff);
+  --color-error-container: var(--color-role-error-container);
+
+  /* Role: on error container -> Maps to: primitives colors.error color palette.error30 */
+  --color-role-on-error-container: var(--primitive-color-error-30, #ad1406ff);
+  --color-on-error-container: var(--color-role-on-error-container);
+
+  /* --------------------------------------------------------------------------
+   * SURFACE & BACKGROUND ROLES
+   * -------------------------------------------------------------------------- */
+  /* Role: surface color -> Maps to: primitives colors.neutral color palette.neutral98 */
+  --color-role-surface: var(--primitive-color-neutral-98, #f9fafbff);
+  --color-surface: var(--color-role-surface);
+
+  /* Role: on surface -> Maps to: primitives colors.neutral color palette.neutral10 */
+  --color-role-on-surface: var(--primitive-color-neutral-10, #16181dff);
+  --color-on-surface: var(--color-role-on-surface);
+
+  /* Role: surface variant -> Maps to: primitives colors.neutral variant color palette.neutralvariant90 */
+  --color-role-surface-variant: var(--primitive-color-neutral-variant-90, #e5e5e6ff);
+  --color-surface-variant: var(--color-role-surface-variant);
+
+  /* Role: on surface variant -> Maps to: primitives colors.neutral variant color palette.neutralvariant30 */
+  --color-role-on-surface-variant: var(--primitive-color-neutral-variant-30, #4b4c4eff);
+  --color-on-surface-variant: var(--color-role-on-surface-variant);
+
+  /* Role: surface container highest -> Maps to: primitives colors.neutral color palette.neutral90 */
+  --color-role-surface-container-highest: var(--primitive-color-neutral-90, #e2e4e9ff);
+  --color-surface-container-highest: var(--color-role-surface-container-highest);
+
+  /* Role: surface container high -> Maps to: primitives colors.neutral color palette.neutral90 */
+  --color-role-surface-container-high: var(--primitive-color-neutral-90, #e2e4e9ff);
+  --color-surface-container-high: var(--color-role-surface-container-high);
+
+  /* Role: surface container -> Maps to: primitives colors.neutral color palette.neutral95 */
+  --color-role-surface-container: var(--primitive-color-neutral-95, #f0f1f4ff);
+  --color-surface-container: var(--color-role-surface-container);
+
+  /* Role: surface container low -> Maps to: primitives colors.neutral color palette.neutral98 */
+  --color-role-surface-container-low: var(--primitive-color-neutral-98, #f9fafbff);
+  --color-surface-container-low: var(--color-role-surface-container-low);
+
+  /* Role: surface container lowest -> Maps to: primitives colors.neutral color palette.neutral100 */
+  --color-role-surface-container-lowest: var(--primitive-color-neutral-100, #ffffffff);
+  --color-surface-container-lowest: var(--color-role-surface-container-lowest);
+
+  /* Role: inverse surface -> Maps to: primitives colors.neutral color palette.neutral20 */
+  --color-role-inverse-surface: var(--primitive-color-neutral-20, #2c303aff);
+  --color-inverse-surface: var(--color-role-inverse-surface);
+
+  /* Role: inverse on surface -> Maps to: primitives colors.neutral color palette.neutral95 */
+  --color-role-inverse-on-surface: var(--primitive-color-neutral-95, #f0f1f4ff);
+  --color-inverse-on-surface: var(--color-role-inverse-on-surface);
+
+  /* Role: surface tint -> Maps to: primitives colors.primary color palette.primary40 */
+  --color-role-surface-tint: var(--primitive-color-primary-40, #004bccff);
+  --color-surface-tint: var(--color-role-surface-tint);
+
+}
+
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: SPACING SCALE
+ * ============================================================================
+ * 
+ * Predictable spacing scale for margins, paddings, gaps, and component sizing.
+ * Both descriptive names (--spacing-small) and industry-standard t-shirt sizes
+ * (--spacing-sm) are provided for developer ergonomics.
+ * ============================================================================
+ */
+
+:root {
+  /* no spacing (0px) */
+  --spacing-no: 0px;
+  --spacing-none: var(--spacing-no);
+
+  /* extra small spacing (4px) */
+  --spacing-extra-small: 0.25rem;
+  --spacing-xs: var(--spacing-extra-small);
+
+  /* small spacing (8px) */
+  --spacing-small: 0.5rem;
+  --spacing-sm: var(--spacing-small);
+
+  /* medium spacing (12px) */
+  --spacing-medium: 0.75rem;
+  --spacing-md: var(--spacing-medium);
+
+  /* base spacing (16px) */
+  --spacing-base: 1rem;
+
+  /* large spacing (20px) */
+  --spacing-large: 1.25rem;
+  --spacing-lg: var(--spacing-large);
+
+  /* extra large spacing (24px) */
+  --spacing-extra-large: 1.5rem;
+  --spacing-xl: var(--spacing-extra-large);
+
+  /* very large spacing (32px) */
+  --spacing-very-large: 2rem;
+  --spacing-2xl: var(--spacing-very-large);
+
+}
+
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: TYPOGRAPHY SYSTEM
+ * ============================================================================
+ * 
+ * Complete typographic hierarchy based on DM Sans.
+ * Provides granular variables (size, weight, line-height, letter-spacing),
+ * composite shorthand variables, and ready-to-use utility classes.
+ * ============================================================================
+ */
+
+:root {
+  /* --------------------------------------------------------------------------
+   * Style: DISPLAY LARGE
+   * -------------------------------------------------------------------------- */
+  --typography-display-large-font-family: 'DM Sans', sans-serif;
+  --typography-display-large-font-size: 4rem;
+  --typography-display-large-font-weight: 500;
+  --typography-display-large-line-height: 6rem;
+  --typography-display-large-letter-spacing: -4px;
+  --typography-display-large-font-style: normal;
+  --typography-display-large-text-decoration: none;
+  --typography-display-large-text-transform: none;
+  --typography-display-large-font: normal 500 4rem/6rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: DISPLAY MEDIUM
+   * -------------------------------------------------------------------------- */
+  --typography-display-medium-font-family: 'DM Sans', sans-serif;
+  --typography-display-medium-font-size: 3.125rem;
+  --typography-display-medium-font-weight: 500;
+  --typography-display-medium-line-height: 4.6875rem;
+  --typography-display-medium-letter-spacing: -3px;
+  --typography-display-medium-font-style: normal;
+  --typography-display-medium-text-decoration: none;
+  --typography-display-medium-text-transform: none;
+  --typography-display-medium-font: normal 500 3.125rem/4.6875rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: DISPLAY SMALL
+   * -------------------------------------------------------------------------- */
+  --typography-display-small-font-family: 'DM Sans', sans-serif;
+  --typography-display-small-font-size: 2.5rem;
+  --typography-display-small-font-weight: 500;
+  --typography-display-small-line-height: 3.75rem;
+  --typography-display-small-letter-spacing: -2.3px;
+  --typography-display-small-font-style: normal;
+  --typography-display-small-text-decoration: none;
+  --typography-display-small-text-transform: none;
+  --typography-display-small-font: normal 500 2.5rem/3.75rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: HEADLINE LARGE
+   * -------------------------------------------------------------------------- */
+  --typography-headline-large-font-family: 'DM Sans', sans-serif;
+  --typography-headline-large-font-size: 2rem;
+  --typography-headline-large-font-weight: 500;
+  --typography-headline-large-line-height: 3rem;
+  --typography-headline-large-letter-spacing: -1.55px;
+  --typography-headline-large-font-style: normal;
+  --typography-headline-large-text-decoration: none;
+  --typography-headline-large-text-transform: none;
+  --typography-headline-large-font: normal 500 2rem/3rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: HEADLINE MEDIUM
+   * -------------------------------------------------------------------------- */
+  --typography-headline-medium-font-family: 'DM Sans', sans-serif;
+  --typography-headline-medium-font-size: 1.75rem;
+  --typography-headline-medium-font-weight: 500;
+  --typography-headline-medium-line-height: 2.625rem;
+  --typography-headline-medium-letter-spacing: -1.35px;
+  --typography-headline-medium-font-style: normal;
+  --typography-headline-medium-text-decoration: none;
+  --typography-headline-medium-text-transform: none;
+  --typography-headline-medium-font: normal 500 1.75rem/2.625rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: HEADLINE SMALL
+   * -------------------------------------------------------------------------- */
+  --typography-headline-small-font-family: 'DM Sans', sans-serif;
+  --typography-headline-small-font-size: 1.5rem;
+  --typography-headline-small-font-weight: 500;
+  --typography-headline-small-line-height: 2.25rem;
+  --typography-headline-small-letter-spacing: -1px;
+  --typography-headline-small-font-style: normal;
+  --typography-headline-small-text-decoration: none;
+  --typography-headline-small-text-transform: none;
+  --typography-headline-small-font: normal 500 1.5rem/2.25rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: TITLE LARGE
+   * -------------------------------------------------------------------------- */
+  --typography-title-large-font-family: 'DM Sans', sans-serif;
+  --typography-title-large-font-size: 1.375rem;
+  --typography-title-large-font-weight: 500;
+  --typography-title-large-line-height: 2.0625rem;
+  --typography-title-large-letter-spacing: -1px;
+  --typography-title-large-font-style: normal;
+  --typography-title-large-text-decoration: none;
+  --typography-title-large-text-transform: none;
+  --typography-title-large-font: normal 500 1.375rem/2.0625rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: TITLE MEDIUM
+   * -------------------------------------------------------------------------- */
+  --typography-title-medium-font-family: 'DM Sans', sans-serif;
+  --typography-title-medium-font-size: 1rem;
+  --typography-title-medium-font-weight: 600;
+  --typography-title-medium-line-height: 1.5rem;
+  --typography-title-medium-letter-spacing: -0.85px;
+  --typography-title-medium-font-style: normal;
+  --typography-title-medium-text-decoration: none;
+  --typography-title-medium-text-transform: none;
+  --typography-title-medium-font: normal 600 1rem/1.5rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: TITLE SMALL
+   * -------------------------------------------------------------------------- */
+  --typography-title-small-font-family: 'DM Sans', sans-serif;
+  --typography-title-small-font-size: 0.875rem;
+  --typography-title-small-font-weight: 400;
+  --typography-title-small-line-height: 1.3125rem;
+  --typography-title-small-letter-spacing: -0.75px;
+  --typography-title-small-font-style: normal;
+  --typography-title-small-text-decoration: none;
+  --typography-title-small-text-transform: none;
+  --typography-title-small-font: normal 400 0.875rem/1.3125rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: BODY LARGE
+   * -------------------------------------------------------------------------- */
+  --typography-body-large-font-family: 'DM Sans', sans-serif;
+  --typography-body-large-font-size: 1rem;
+  --typography-body-large-font-weight: 500;
+  --typography-body-large-line-height: 1.5rem;
+  --typography-body-large-letter-spacing: -0.8px;
+  --typography-body-large-font-style: normal;
+  --typography-body-large-text-decoration: none;
+  --typography-body-large-text-transform: none;
+  --typography-body-large-font: normal 500 1rem/1.5rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: BODY MEDIUM
+   * -------------------------------------------------------------------------- */
+  --typography-body-medium-font-family: 'DM Sans', sans-serif;
+  --typography-body-medium-font-size: 0.875rem;
+  --typography-body-medium-font-weight: 500;
+  --typography-body-medium-line-height: 1.3125rem;
+  --typography-body-medium-letter-spacing: -0.75px;
+  --typography-body-medium-font-style: normal;
+  --typography-body-medium-text-decoration: none;
+  --typography-body-medium-text-transform: none;
+  --typography-body-medium-font: normal 500 0.875rem/1.3125rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: BODY SMALL
+   * -------------------------------------------------------------------------- */
+  --typography-body-small-font-family: 'DM Sans', sans-serif;
+  --typography-body-small-font-size: 0.75rem;
+  --typography-body-small-font-weight: 400;
+  --typography-body-small-line-height: 1.125rem;
+  --typography-body-small-letter-spacing: -0.75px;
+  --typography-body-small-font-style: normal;
+  --typography-body-small-text-decoration: none;
+  --typography-body-small-text-transform: none;
+  --typography-body-small-font: normal 400 0.75rem/1.125rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: LABEL LARGE
+   * -------------------------------------------------------------------------- */
+  --typography-label-large-font-family: 'DM Sans', sans-serif;
+  --typography-label-large-font-size: 0.875rem;
+  --typography-label-large-font-weight: 500;
+  --typography-label-large-line-height: 1.3125rem;
+  --typography-label-large-letter-spacing: -0.9px;
+  --typography-label-large-font-style: normal;
+  --typography-label-large-text-decoration: none;
+  --typography-label-large-text-transform: none;
+  --typography-label-large-font: normal 500 0.875rem/1.3125rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: LABEL MEDIUM
+   * -------------------------------------------------------------------------- */
+  --typography-label-medium-font-family: 'DM Sans', sans-serif;
+  --typography-label-medium-font-size: 0.75rem;
+  --typography-label-medium-font-weight: 500;
+  --typography-label-medium-line-height: 1.125rem;
+  --typography-label-medium-letter-spacing: -0.9px;
+  --typography-label-medium-font-style: normal;
+  --typography-label-medium-text-decoration: none;
+  --typography-label-medium-text-transform: none;
+  --typography-label-medium-font: normal 500 0.75rem/1.125rem 'DM Sans', sans-serif;
+
+  /* --------------------------------------------------------------------------
+   * Style: LABEL SMALL
+   * -------------------------------------------------------------------------- */
+  --typography-label-small-font-family: 'DM Sans', sans-serif;
+  --typography-label-small-font-size: 0.6875rem;
+  --typography-label-small-font-weight: 500;
+  --typography-label-small-line-height: 1.0313rem;
+  --typography-label-small-letter-spacing: -0.8px;
+  --typography-label-small-font-style: normal;
+  --typography-label-small-text-decoration: none;
+  --typography-label-small-text-transform: none;
+  --typography-label-small-font: normal 500 0.6875rem/1.0313rem 'DM Sans', sans-serif;
+
+}
+
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: EFFECTS & ELEVATION (SHADOWS)
+ * ============================================================================
+ * 
+ * Multi-layer elevation and shadow variables for cards, modals, dropdowns,
+ * and floating UI elements.
+ * ============================================================================
+ */
+
+:root {
+  /* hard shadow */
+  --shadow-hard: 4px 6px 8px 0px #00000052;
+  --shadow-hard-x: 4px;
+  --shadow-hard-y: 6px;
+  --shadow-hard-blur: 8px;
+  --shadow-hard-spread: 0px;
+  --shadow-hard-color: #00000052;
+
+  /* medium shadow */
+  --shadow-medium: 2px 4px 6px 0px #00000047;
+  --shadow-medium-x: 2px;
+  --shadow-medium-y: 4px;
+  --shadow-medium-blur: 6px;
+  --shadow-medium-spread: 0px;
+  --shadow-medium-color: #00000047;
+
+  /* soft shadow */
+  --shadow-soft: 2px 2px 20px 0px #0000001f;
+  --shadow-soft-x: 2px;
+  --shadow-soft-y: 2px;
+  --shadow-soft-blur: 20px;
+  --shadow-soft-spread: 0px;
+  --shadow-soft-color: #0000001f;
+
+}
+
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: UTILITY CLASSES
+ * ============================================================================
+ * 
+ * Optional helper classes for rapid prototyping and standardized layout styles.
+ * ============================================================================
+ */
+
+/* Typography Utilities */
+.type-display-large,
+.typography-display-large {
+  font-family: var(--typography-display-large-font-family);
+  font-size: var(--typography-display-large-font-size);
+  font-weight: var(--typography-display-large-font-weight);
+  line-height: var(--typography-display-large-line-height);
+  letter-spacing: var(--typography-display-large-letter-spacing);
+  font-style: var(--typography-display-large-font-style);
+  text-decoration: var(--typography-display-large-text-decoration);
+  text-transform: var(--typography-display-large-text-transform);
+}
+
+.type-display-medium,
+.typography-display-medium {
+  font-family: var(--typography-display-medium-font-family);
+  font-size: var(--typography-display-medium-font-size);
+  font-weight: var(--typography-display-medium-font-weight);
+  line-height: var(--typography-display-medium-line-height);
+  letter-spacing: var(--typography-display-medium-letter-spacing);
+  font-style: var(--typography-display-medium-font-style);
+  text-decoration: var(--typography-display-medium-text-decoration);
+  text-transform: var(--typography-display-medium-text-transform);
+}
+
+.type-display-small,
+.typography-display-small {
+  font-family: var(--typography-display-small-font-family);
+  font-size: var(--typography-display-small-font-size);
+  font-weight: var(--typography-display-small-font-weight);
+  line-height: var(--typography-display-small-line-height);
+  letter-spacing: var(--typography-display-small-letter-spacing);
+  font-style: var(--typography-display-small-font-style);
+  text-decoration: var(--typography-display-small-text-decoration);
+  text-transform: var(--typography-display-small-text-transform);
+}
+
+.type-headline-large,
+.typography-headline-large {
+  font-family: var(--typography-headline-large-font-family);
+  font-size: var(--typography-headline-large-font-size);
+  font-weight: var(--typography-headline-large-font-weight);
+  line-height: var(--typography-headline-large-line-height);
+  letter-spacing: var(--typography-headline-large-letter-spacing);
+  font-style: var(--typography-headline-large-font-style);
+  text-decoration: var(--typography-headline-large-text-decoration);
+  text-transform: var(--typography-headline-large-text-transform);
+}
+
+.type-headline-medium,
+.typography-headline-medium {
+  font-family: var(--typography-headline-medium-font-family);
+  font-size: var(--typography-headline-medium-font-size);
+  font-weight: var(--typography-headline-medium-font-weight);
+  line-height: var(--typography-headline-medium-line-height);
+  letter-spacing: var(--typography-headline-medium-letter-spacing);
+  font-style: var(--typography-headline-medium-font-style);
+  text-decoration: var(--typography-headline-medium-text-decoration);
+  text-transform: var(--typography-headline-medium-text-transform);
+}
+
+.type-headline-small,
+.typography-headline-small {
+  font-family: var(--typography-headline-small-font-family);
+  font-size: var(--typography-headline-small-font-size);
+  font-weight: var(--typography-headline-small-font-weight);
+  line-height: var(--typography-headline-small-line-height);
+  letter-spacing: var(--typography-headline-small-letter-spacing);
+  font-style: var(--typography-headline-small-font-style);
+  text-decoration: var(--typography-headline-small-text-decoration);
+  text-transform: var(--typography-headline-small-text-transform);
+}
+
+.type-title-large,
+.typography-title-large {
+  font-family: var(--typography-title-large-font-family);
+  font-size: var(--typography-title-large-font-size);
+  font-weight: var(--typography-title-large-font-weight);
+  line-height: var(--typography-title-large-line-height);
+  letter-spacing: var(--typography-title-large-letter-spacing);
+  font-style: var(--typography-title-large-font-style);
+  text-decoration: var(--typography-title-large-text-decoration);
+  text-transform: var(--typography-title-large-text-transform);
+}
+
+.type-title-medium,
+.typography-title-medium {
+  font-family: var(--typography-title-medium-font-family);
+  font-size: var(--typography-title-medium-font-size);
+  font-weight: var(--typography-title-medium-font-weight);
+  line-height: var(--typography-title-medium-line-height);
+  letter-spacing: var(--typography-title-medium-letter-spacing);
+  font-style: var(--typography-title-medium-font-style);
+  text-decoration: var(--typography-title-medium-text-decoration);
+  text-transform: var(--typography-title-medium-text-transform);
+}
+
+.type-title-small,
+.typography-title-small {
+  font-family: var(--typography-title-small-font-family);
+  font-size: var(--typography-title-small-font-size);
+  font-weight: var(--typography-title-small-font-weight);
+  line-height: var(--typography-title-small-line-height);
+  letter-spacing: var(--typography-title-small-letter-spacing);
+  font-style: var(--typography-title-small-font-style);
+  text-decoration: var(--typography-title-small-text-decoration);
+  text-transform: var(--typography-title-small-text-transform);
+}
+
+.type-body-large,
+.typography-body-large {
+  font-family: var(--typography-body-large-font-family);
+  font-size: var(--typography-body-large-font-size);
+  font-weight: var(--typography-body-large-font-weight);
+  line-height: var(--typography-body-large-line-height);
+  letter-spacing: var(--typography-body-large-letter-spacing);
+  font-style: var(--typography-body-large-font-style);
+  text-decoration: var(--typography-body-large-text-decoration);
+  text-transform: var(--typography-body-large-text-transform);
+}
+
+.type-body-medium,
+.typography-body-medium {
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-weight: var(--typography-body-medium-font-weight);
+  line-height: var(--typography-body-medium-line-height);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
+  font-style: var(--typography-body-medium-font-style);
+  text-decoration: var(--typography-body-medium-text-decoration);
+  text-transform: var(--typography-body-medium-text-transform);
+}
+
+.type-body-small,
+.typography-body-small {
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-small-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+  font-style: var(--typography-body-small-font-style);
+  text-decoration: var(--typography-body-small-text-decoration);
+  text-transform: var(--typography-body-small-text-transform);
+}
+
+.type-label-large,
+.typography-label-large {
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-weight: var(--typography-label-large-font-weight);
+  line-height: var(--typography-label-large-line-height);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+  font-style: var(--typography-label-large-font-style);
+  text-decoration: var(--typography-label-large-text-decoration);
+  text-transform: var(--typography-label-large-text-transform);
+}
+
+.type-label-medium,
+.typography-label-medium {
+  font-family: var(--typography-label-medium-font-family);
+  font-size: var(--typography-label-medium-font-size);
+  font-weight: var(--typography-label-medium-font-weight);
+  line-height: var(--typography-label-medium-line-height);
+  letter-spacing: var(--typography-label-medium-letter-spacing);
+  font-style: var(--typography-label-medium-font-style);
+  text-decoration: var(--typography-label-medium-text-decoration);
+  text-transform: var(--typography-label-medium-text-transform);
+}
+
+.type-label-small,
+.typography-label-small {
+  font-family: var(--typography-label-small-font-family);
+  font-size: var(--typography-label-small-font-size);
+  font-weight: var(--typography-label-small-font-weight);
+  line-height: var(--typography-label-small-line-height);
+  letter-spacing: var(--typography-label-small-letter-spacing);
+  font-style: var(--typography-label-small-font-style);
+  text-decoration: var(--typography-label-small-text-decoration);
+  text-transform: var(--typography-label-small-text-transform);
+}
+
+/* Shadow Utilities */
+.shadow-hard {
+  box-shadow: var(--shadow-hard);
+}
+
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+

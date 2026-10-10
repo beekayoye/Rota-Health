@@ -1,0 +1,137 @@
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: PRIMITIVE FOUNDATION PALETTES
+ * ============================================================================
+ * 
+ * 🛑 CRITICAL ARCHITECTURAL RULE:
+ * ----------------------------------------------------------------------------
+ * These variables represent raw foundation colors and tonal palette stops.
+ * DO NOT APPLY PRIMITIVE COLORS DIRECTLY TO UI COMPONENTS OR LAYOUTS!
+ * 
+ * Primitives serve as the foundational palette used exclusively to feed the
+ * semantic Color Roles. Applying primitives directly violates design system
+ * integrity and breaks multi-theming, dark mode, and accessibility contrast.
+ * 
+ * For UI elements, ALWAYS use the semantic Color Roles (--color-role-* / --color-*).
+ * ============================================================================
+ */
+
+:root {
+  /* --------------------------------------------------------------------------
+   * 1. KEY COLORS (Brand Anchors)
+   * -------------------------------------------------------------------------- */
+  --primitive-color-key-primary: #004ed4ff; /* primary key color */
+  --primitive-color-key-secondary: #003eaaff; /* secondary key color */
+  --primitive-color-key-tertiary: #005efeff; /* tertiary key color */
+  --primitive-color-key-neutral: #16181dff; /* neutral key color */
+  --primitive-color-key-neutral-variant: #38393aff; /* neutral variant key color */
+  --primitive-color-key-error: #c51707ff; /* error key color */
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: PRIMARY COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-primary-0: #000000ff;
+  --primitive-color-primary-10: #001333ff;
+  --primitive-color-primary-20: #002566ff;
+  --primitive-color-primary-30: #003899ff;
+  --primitive-color-primary-40: #004bccff;
+  --primitive-color-primary-50: #005dffff;
+  --primitive-color-primary-60: #337effff;
+  --primitive-color-primary-70: #669effff;
+  --primitive-color-primary-80: #99beffff;
+  --primitive-color-primary-90: #ccdfffff;
+  --primitive-color-primary-95: #e5efffff;
+  --primitive-color-primary-98: #f5f9ffff;
+  --primitive-color-primary-99: #fafcffff;
+  --primitive-color-primary-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: SECONDARY COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-secondary-0: #000000ff;
+  --primitive-color-secondary-10: #001c4cff;
+  --primitive-color-secondary-20: #002e80ff;
+  --primitive-color-secondary-30: #003eaaff;
+  --primitive-color-secondary-40: #004ed6ff;
+  --primitive-color-secondary-50: #005dffff;
+  --primitive-color-secondary-60: #3d84ffff;
+  --primitive-color-secondary-70: #70a5ffff;
+  --primitive-color-secondary-80: #a3c5ffff;
+  --primitive-color-secondary-90: #d6e5ffff;
+  --primitive-color-secondary-95: #ebf2ffff;
+  --primitive-color-secondary-98: #f5f9ffff;
+  --primitive-color-secondary-99: #fafcffff;
+  --primitive-color-secondary-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: TERTIARY COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-tertiary-0: #000000ff;
+  --primitive-color-tertiary-10: #001333ff;
+  --primitive-color-tertiary-20: #002666ff;
+  --primitive-color-tertiary-30: #003999ff;
+  --primitive-color-tertiary-40: #004bccff;
+  --primitive-color-tertiary-50: #005efeff;
+  --primitive-color-tertiary-60: #337effff;
+  --primitive-color-tertiary-70: #669fffff;
+  --primitive-color-tertiary-80: #99bfffff;
+  --primitive-color-tertiary-90: #ccdfffff;
+  --primitive-color-tertiary-95: #e5efffff;
+  --primitive-color-tertiary-98: #f5f9ffff;
+  --primitive-color-tertiary-99: #fafcffff;
+  --primitive-color-tertiary-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: NEUTRAL COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-neutral-0: #000000ff;
+  --primitive-color-neutral-10: #16181dff;
+  --primitive-color-neutral-20: #2c303aff;
+  --primitive-color-neutral-30: #424857ff;
+  --primitive-color-neutral-40: #586074ff;
+  --primitive-color-neutral-50: #6e7891ff;
+  --primitive-color-neutral-60: #8b93a7ff;
+  --primitive-color-neutral-70: #a8aebdff;
+  --primitive-color-neutral-80: #c5c9d3ff;
+  --primitive-color-neutral-90: #e2e4e9ff;
+  --primitive-color-neutral-95: #f0f1f4ff;
+  --primitive-color-neutral-98: #f9fafbff;
+  --primitive-color-neutral-99: #fcfcfdff;
+  --primitive-color-neutral-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: NEUTRAL VARIANT COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-neutral-variant-0: #000000ff;
+  --primitive-color-neutral-variant-10: #19191aff;
+  --primitive-color-neutral-variant-20: #323334ff;
+  --primitive-color-neutral-variant-30: #4b4c4eff;
+  --primitive-color-neutral-variant-40: #646668ff;
+  --primitive-color-neutral-variant-50: #7d8082ff;
+  --primitive-color-neutral-variant-60: #97999bff;
+  --primitive-color-neutral-variant-70: #b1b2b4ff;
+  --primitive-color-neutral-variant-80: #cbcccdff;
+  --primitive-color-neutral-variant-90: #e5e5e6ff;
+  --primitive-color-neutral-variant-95: #f2f2f2ff;
+  --primitive-color-neutral-variant-98: #fafafaff;
+  --primitive-color-neutral-variant-99: #fcfcfcff;
+  --primitive-color-neutral-variant-100: #ffffffff;
+
+  /* --------------------------------------------------------------------------
+   * TONAL PALETTE: ERROR COLOR PALETTE
+   * -------------------------------------------------------------------------- */
+  --primitive-color-error-0: #000000ff;
+  --primitive-color-error-10: #310602ff;
+  --primitive-color-error-20: #630b03ff;
+  --primitive-color-error-30: #ad1406ff;
+  --primitive-color-error-40: #c51707ff;
+  --primitive-color-error-50: #f71c08ff;
+  --primitive-color-error-60: #f84a3aff;
+  --primitive-color-error-70: #fb8e84ff;
+  --primitive-color-error-80: #fcada6ff;
+  --primitive-color-error-90: #fdd2ceff;
+  --primitive-color-error-95: #fee8e6ff;
+  --primitive-color-error-98: #fff6f5ff;
+  --primitive-color-error-99: #fffafaff;
+  --primitive-color-error-100: #ffffffff;
+}

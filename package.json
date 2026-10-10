@@ -1,0 +1,23 @@
+{
+  "name": "rota-health-design-tokens",
+  "version": "1.0.0",
+  "description": "Design token converter for Rota Health design system: transforms Figma tokens into production CSS variables and modular packages with strict Two-Tier color architecture.",
+  "main": "dist/tokens.js",
+  "style": "design-tokens.css",
+  "scripts": {
+    "tokens": "node convert-tokens.js",
+    "build:tokens": "node convert-tokens.js --split",
+    "build:rem": "node convert-tokens.js --rem --output design-tokens.rem.css",
+    "test": "node test/convert-tokens.test.js"
+  },
+  "keywords": [
+    "design-tokens",
+    "css-variables",
+    "color-roles",
+    "design-system",
+    "figma-tokens",
+    "material-tokens"
+  ],
+  "author": "Rota Health",
+  "license": "MIT"
+}

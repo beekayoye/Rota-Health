@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rota Health Design System - Token Explorer & Styleguide</title>
+  <meta name="description" content="Interactive Design Token Explorer for Rota Health Design System showcasing the Two-Tier Color System (Primitives vs. UI Color Roles), typography, spacing, and shadows.">
+  
+  <!-- Google Fonts: DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Generated Design Tokens Bundle -->
+  <link rel="stylesheet" href="./design-tokens.css">
+  
+  <style>
+    /* --------------------------------------------------------------------------
+     * Styleguide Page Base & Layout
+     * -------------------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --font-code: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--color-surface);
+      color: var(--color-on-surface);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: var(--spacing-very-large);
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-large);
+    }
+
+    /* Top Navigation / Header */
+    header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-surface-variant);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-base) 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-small);
+      text-decoration: none;
+      color: var(--color-on-surface);
+    }
+
+    .brand-badge {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--spacing-base);
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--color-on-surface-variant);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-primary);
+    }
+
+    /* Hero Banner */
+    .hero {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--color-surface-variant);
+      background: linear-gradient(180deg, var(--color-surface-container-low) 0%, var(--color-surface) 100%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--color-primary-container);
+      color: var(--color-on-primary-container);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-base);
+    }
+
+    .hero-title {
+      font-size: var(--typography-display-small-font-size);
+      font-weight: var(--typography-display-small-font-weight);
+      line-height: var(--typography-display-small-line-height);
+      letter-spacing: var(--typography-display-small-letter-spacing);
+      margin-bottom: var(--spacing-small);
+      color: var(--color-on-surface);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--color-on-surface-variant);
+      max-width: 800px;
+      line-height: 1.6;
+    }
+
+    /* Architectural Warning / Rules Box */
+    .architecture-callout {
+      margin-top: var(--spacing-large);
+      background: var(--color-surface-container);
+      border-left: 4px solid var(--color-primary);
+      border-radius: 8px;
+      padding: var(--spacing-base) var(--spacing-large);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-large);
+      box-shadow: var(--shadow-soft);
+    }
+
+    @media (max-width: 768px) {
+      .architecture-callout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rule-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .rule-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+
+    .rule-badge.ui-role {
+      background: #e6f8eb;
+      color: #0d7038;
+      border: 1px solid #95d9a9;
+    }
+
+    .rule-badge.primitive {
+      background: #fde8e8;
+      color: #9b1c1c;
+      border: 1px solid #f8b4b4;
+    }
+
+    .rule-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .rule-desc {
+      font-size: 13px;
+      color: var(--color-on-surface-variant);
+      line-height: 1.5;
+    }
+
+    /* Section Styling */
+    section {
+      padding: 50px 0;
+    }
+
+    .section-header {
+      margin-bottom: var(--spacing-large);
+    }
+
+    .section-tag {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--color-on-surface-variant);
+      max-width: 820px;
+    }
+
+    /* Grid Layouts */
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--spacing-base);
+    }
+
+    /* Token Card */
+    .token-card {
+      background: var(--color-surface-container-low);
+      border: 1px solid var(--color-surface-variant);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .token-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-medium);
+      border-color: var(--color-primary);
+    }
+
+    .swatch {
+      height: 90px;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .token-card-body {
+      padding: var(--spacing-base);
+    }
+
+    .token-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .token-var {
+      font-family: var(--font-code);
+      font-size: 12px;
+      color: var(--color-primary);
+      background: var(--color-surface-container);
+      padding: 3px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+      word-break: break-all;
+    }
+
+    .token-mapping {
+      font-size: 11px;
+      color: var(--color-on-surface-variant);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .token-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-family: var(--font-code);
+      color: var(--color-on-surface-variant);
+      border-top: 1px solid var(--color-surface-variant);
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+
+    .copy-hint {
+      font-size: 10px;
+      color: var(--color-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+    }
+
+    /* Primitives Palettes Horizontal Bars */
+    .palette-group {
+      background: var(--color-surface-container-low);
+      border: 1px solid var(--color-surface-variant);
+      border-radius: 12px;
+      padding: var(--spacing-large);
+      margin-bottom: var(--spacing-large);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .palette-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-base);
+    }
+
+    .palette-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .palette-stops-container {
+      display: grid;
+      grid-template-columns: repeat(14, 1fr);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 900px) {
+      .palette-stops-container {
+        grid-template-columns: repeat(7, 1fr);
+      }
+    }
+
+    .palette-stop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 4px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .palette-stop:hover {
+      transform: scale(1.08);
+      z-index: 2;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .stop-tone {
+      font-family: var(--font-code);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .stop-hex {
+      font-family: var(--font-code);
+      font-size: 9px;
+      opacity: 0.85;
+    }
+
+    /* Typography Showcase Table */
+    .type-table-container {
+      background: var(--color-surface-container-low);
+      border: 1px solid var(--color-surface-variant);
+      border-radius: 12px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .type-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .type-table th, .type-table td {
+      padding: var(--spacing-base);
+      border-bottom: 1px solid var(--color-surface-variant);
+    }
+
+    .type-table th {
+      background: var(--color-surface-container);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--color-on-surface-variant);
+    }
+
+    .type-preview-cell {
+      max-width: 400px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Spacing Visual Scale */
+    .spacing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--spacing-base);
+    }
+
+    .spacing-card {
+      background: var(--color-surface-container-low);
+      border: 1px solid var(--color-surface-variant);
+      border-radius: 12px;
+      padding: var(--spacing-base);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .spacing-bar-wrapper {
+      background: var(--color-surface-container);
+      border-radius: 6px;
+      padding: 8px;
+      margin: 12px 0;
+      height: 48px;
+      display: flex;
+      align-items: center;
+    }
+
+    .spacing-bar {
+      height: 24px;
+      background: var(--color-primary);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 6px;
+      color: var(--color-on-primary);
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 6px;
+    }
+
+    /* Shadow Showcase */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-large);
+    }
+
+    @media (max-width: 768px) {
+      .shadow-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .shadow-demo-box {
+      background: var(--color-surface-container-lowest);
+      border-radius: 12px;
+      padding: 40px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: transform 0.2s;
+    }
+
+    .shadow-demo-box:hover {
+      transform: translateY(-4px);
+    }
+
+    /* UI Component Showcase */
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: var(--spacing-large);
+    }
+
+    .component-card {
+      background: var(--color-surface-container-low);
+      border: 1px solid var(--color-surface-variant);
+      border-radius: 16px;
+      padding: var(--spacing-large);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-base);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    .btn-secondary {
+      background-color: var(--color-secondary);
+      color: var(--color-on-secondary);
+    }
+
+    .btn-tertiary {
+      background-color: var(--color-tertiary);
+      color: var(--color-on-tertiary);
+    }
+
+    .btn-error {
+      background-color: var(--color-error);
+      color: var(--color-on-error);
+    }
+
+    .btn-tonal {
+      background-color: var(--color-primary-container);
+      color: var(--color-on-primary-container);
+    }
+
+    .btn-outlined {
+      background-color: transparent;
+      color: var(--color-primary);
+      border: 1px solid var(--color-surface-variant);
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      box-shadow: var(--shadow-hard);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+    }
+
+    .toast-container.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast for Copy Notification -->
+  <div id="toast" class="toast-container">CSS Variable copied to clipboard!</div>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a href="#" class="brand">
+        <span class="brand-badge">ROTA</span>
+        <span class="brand-title">Design System Tokens</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#color-architecture">Color Architecture</a></li>
+        <li><a href="#color-roles">Color Roles</a></li>
+        <li><a href="#primitives">Primitives</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#spacing">Spacing</a></li>
+        <li><a href="#shadows">Shadows</a></li>
+        <li><a href="#components">Live UI</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Figma Tokens Studio • Two-Tier Architecture • Production CSS</div>
+      <h1 class="hero-title">Rota Health Design Tokens</h1>
+      <p class="hero-subtitle">
+        Strict Two-Tier Color Architecture separating foundational primitives from semantic UI color roles. Complete with DM Sans typography, 4/8-point spacing scales, and multi-layer elevation.
+      </p>
+
+      <!-- Architecture Callout -->
+      <div id="color-architecture" class="architecture-callout">
+        <div class="rule-card">
+          <span class="rule-badge primitive">🛑 FOUNDATION TIER (DO NOT USE ON UI)</span>
+          <h3 class="rule-title">Primitive Colors (--primitive-color-*)</h3>
+          <p class="rule-desc">
+            Raw color values and 0–100 tonal palette stops. These are foundational building blocks meant exclusively to feed semantic roles. <strong>Never hardcode primitive colors in component stylesheets</strong>, as it breaks dark mode, theming, and accessibility contrast.
+          </p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-badge ui-role">✅ APPLICATION TIER (USE ON UI)</span>
+          <h3 class="rule-title">Color Roles (--color-role-* / --color-*)</h3>
+          <p class="rule-desc">
+            Contextual, semantic tokens representing functional intent (e.g. primary, on-primary, surface, error). <strong>These are the tokens developers must apply directly to UI components</strong>. Each role automatically maps to a primitive foundation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. COLOR ROLES SECTION -->
+  <section id="color-roles">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Tier 2 • Semantic UI Tokens</div>
+        <h2 class="section-title">Color Roles (UI Application Colors)</h2>
+        <p class="section-desc">
+          Click on any token card to copy its CSS variable name. Every color role references its underlying primitive token via <code>var(--primitive-color-*, fallback)</code>.
+        </p>
+      </div>
+
+      <div class="token-grid" id="color-roles-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PRIMITIVES SECTION -->
+  <section id="primitives" style="background: var(--color-surface-container-lowest);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Tier 1 • Foundations</div>
+        <h2 class="section-title">Primitive Color Palettes</h2>
+        <p class="section-desc">
+          Foundational color stops (0 to 100 lightness). Remember: these foundational tokens are not intended to be used directly in UI component CSS.
+        </p>
+      </div>
+
+      <div id="primitives-container">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. TYPOGRAPHY SECTION -->
+  <section id="typography">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Modular Hierarchy</div>
+        <h2 class="section-title">Typography System (DM Sans)</h2>
+        <p class="section-desc">
+          Consistent type hierarchy spanning Display, Headline, Title, Body, and Label styles with tuned line-heights and letter-spacings.
+        </p>
+      </div>
+
+      <div class="type-table-container">
+        <table class="type-table">
+          <thead>
+            <tr>
+              <th>Style Name</th>
+              <th>CSS Class / Variable</th>
+              <th>Font Size / Line Height</th>
+              <th>Weight</th>
+              <th>Live Preview</th>
+            </tr>
+          </thead>
+          <tbody id="typography-tbody">
+            <!-- Rendered via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SPACING SECTION -->
+  <section id="spacing" style="background: var(--color-surface-container-lowest);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Layout Scale</div>
+        <h2 class="section-title">Spacing Collection</h2>
+        <p class="section-desc">
+          Predictable spacing scale for padding, margins, flex gaps, and grid layouts.
+        </p>
+      </div>
+
+      <div class="spacing-grid" id="spacing-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. SHADOWS SECTION -->
+  <section id="shadows">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Elevation</div>
+        <h2 class="section-title">Elevation & Shadows</h2>
+        <p class="section-desc">
+          Drop shadow definitions for depth, layered cards, dialogs, and popovers.
+        </p>
+      </div>
+
+      <div class="shadow-grid">
+        <div class="shadow-demo-box shadow-soft" onclick="copyText('var(--shadow-soft)')">
+          <h3 style="font-size: 18px; font-weight: 700;">Soft Shadow</h3>
+          <code style="font-size: 12px; color: var(--color-primary);">var(--shadow-soft)</code>
+          <p style="font-size: 13px; color: var(--color-on-surface-variant);">2px 2px 20px 0px rgba(0,0,0,0.12)</p>
+        </div>
+        <div class="shadow-demo-box shadow-medium" onclick="copyText('var(--shadow-medium)')">
+          <h3 style="font-size: 18px; font-weight: 700;">Medium Shadow</h3>
+          <code style="font-size: 12px; color: var(--color-primary);">var(--shadow-medium)</code>
+          <p style="font-size: 13px; color: var(--color-on-surface-variant);">2px 4px 6px 0px rgba(0,0,0,0.28)</p>
+        </div>
+        <div class="shadow-demo-box shadow-hard" onclick="copyText('var(--shadow-hard)')">
+          <h3 style="font-size: 18px; font-weight: 700;">Hard Shadow</h3>
+          <code style="font-size: 12px; color: var(--color-primary);">var(--shadow-hard)</code>
+          <p style="font-size: 13px; color: var(--color-on-surface-variant);">4px 6px 8px 0px rgba(0,0,0,0.32)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LIVE UI DEMO SECTION -->
+  <section id="components" style="background: var(--color-surface-container-lowest);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Verification & Demo</div>
+        <h2 class="section-title">Components Built Strictly with Color Roles</h2>
+        <p class="section-desc">
+          These production-ready UI components use only Color Roles, DM Sans typography, and design token spacing. Notice how no primitive colors are referenced directly.
+        </p>
+      </div>
+
+      <div class="components-grid">
+        <!-- Component 1: Action Buttons -->
+        <div class="component-card">
+          <h3 style="font-size: 16px; font-weight: 700;">Interactive Buttons</h3>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <button class="btn btn-primary">Primary Action</button>
+            <button class="btn btn-secondary">Secondary Action</button>
+            <button class="btn btn-tonal">Primary Tonal</button>
+            <button class="btn btn-outlined">Outlined Button</button>
+            <button class="btn btn-error">Error / Danger</button>
+          </div>
+        </div>
+
+        <!-- Component 2: Card with Surface Roles -->
+        <div class="component-card" style="box-shadow: var(--shadow-medium);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 700; color: var(--color-primary); text-transform: uppercase;">Surface Container</span>
+            <span style="background: var(--color-primary-container); color: var(--color-on-primary-container); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px;">Active</span>
+          </div>
+          <h4 style="font-size: 18px; font-weight: 700; color: var(--color-on-surface);">Patient Rota Schedule</h4>
+          <p style="font-size: 14px; color: var(--color-on-surface-variant); line-height: 1.5;">
+            Styled with <code>--color-surface</code>, <code>--color-on-surface</code>, and <code>--color-on-surface-variant</code>.
+          </p>
+          <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <button class="btn btn-outlined" style="padding: 6px 12px; font-size: 12px;">Dismiss</button>
+            <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">View Details</button>
+          </div>
+        </div>
+
+        <!-- Component 3: Alert / Feedback Notice -->
+        <div class="component-card" style="background: var(--color-error-container); border-color: transparent;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-size: 20px;">⚠️</span>
+            <div>
+              <h4 style="font-size: 15px; font-weight: 700; color: var(--color-on-error-container);">Critical Alert Notice</h4>
+              <p style="font-size: 13px; color: var(--color-on-error-container); opacity: 0.9; margin-top: 4px;">
+                Using <code>--color-error-container</code> and <code>--color-on-error-container</code> ensures WCAG AAA accessible contrast automatically.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client-side Interactive Script -->
+  <script>
+    // Copy Toast Helper
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.textContent = `Copied "${text}" to clipboard!`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2400);
+      });
+    }
+
+    // Load resolved token JSON data
+    fetch('./dist/tokens.resolved.json')
+      .then(res => res.json())
+      .then(data => {
+        renderColorRoles(data.colorRoles.tokens);
+        renderPrimitives(data.primitives.tokens);
+        renderTypography(data.typography);
+        renderSpacing(data.spacing);
+      })
+      .catch(err => {
+        console.error('Failed to load resolved tokens json:', err);
+      });
+
+    // Helper: determine text contrast color for swatch
+    function getContrastColor(hex) {
+      const cleanHex = hex.replace('#', '').slice(0, 6);
+      const r = parseInt(cleanHex.substr(0, 2), 16) || 0;
+      const g = parseInt(cleanHex.substr(2, 2), 16) || 0;
+      const b = parseInt(cleanHex.substr(4, 2), 16) || 0;
+      const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+      return yiq >= 128 ? '#111827' : '#ffffff';
+    }
+
+    function renderColorRoles(roles) {
+      const grid = document.getElementById('color-roles-grid');
+      let html = '';
+
+      for (const [key, role] of Object.entries(roles)) {
+        const textColor = getContrastColor(role.resolvedValue);
+        html += `
+          <div class="token-card" onclick="copyText('var(${role.cssVarClean})')">
+            <div class="swatch" style="background-color: var(${role.cssVarClean}); color: ${textColor};">
+              ${role.resolvedValue}
+            </div>
+            <div class="token-card-body">
+              <div class="token-name">${role.roleName}</div>
+              <div class="token-var">var(${role.cssVarClean})</div>
+              <div class="token-mapping"><strong>Maps to:</strong> ${role.mapsToPrimitiveVar}</div>
+              <div class="token-meta">
+                <span>Role: ${role.cssVarRole}</span>
+                <span class="copy-hint">Click to copy</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+
+    function renderPrimitives(primitives) {
+      const container = document.getElementById('primitives-container');
+      
+      // Group by palette
+      const groups = {};
+      for (const [varName, token] of Object.entries(primitives)) {
+        if (!groups[token.group]) groups[token.group] = [];
+        groups[token.group].push({ varName, ...token });
+      }
+
+      let html = '';
+
+      for (const [groupName, tokens] of Object.entries(groups)) {
+        const isKeyGroup = groupName.includes('key color');
+        html += `
+          <div class="palette-group">
+            <div class="palette-header">
+              <h3 class="palette-title">${groupName.toUpperCase()}</h3>
+              <span style="font-size: 12px; color: var(--color-on-surface-variant);">${tokens.length} Foundation Stops</span>
+            </div>
+            <div class="palette-stops-container" style="${isKeyGroup ? 'grid-template-columns: repeat(6, 1fr);' : ''}">
+        `;
+
+        for (const t of tokens) {
+          const textColor = getContrastColor(t.value);
+          const stopLabel = t.name.replace(/^[a-z]+variant|^[a-z]+/i, '');
+          html += `
+            <div class="palette-stop" style="background-color: ${t.value}; color: ${textColor};" onclick="copyText('var(${t.varName})')">
+              <span class="stop-tone">${stopLabel || t.name}</span>
+              <span class="stop-hex">${t.value.slice(0, 7)}</span>
+            </div>
+          `;
+        }
+
+        html += `
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function renderTypography(typography) {
+      const tbody = document.getElementById('typography-tbody');
+      let html = '';
+
+      for (const [slug, item] of Object.entries(typography)) {
+        html += `
+          <tr>
+            <td><strong>${item.styleName}</strong></td>
+            <td><code style="font-size: 12px; color: var(--color-primary); cursor: pointer;" onclick="copyText('${item.varPrefix}-font')">.type-${slug}</code></td>
+            <td>${item.properties.fontSize} / ${item.properties.lineHeight}</td>
+            <td>${item.properties.fontWeight}</td>
+            <td class="type-preview-cell">
+              <span class="type-${slug}">The quick brown fox jumps</span>
+            </td>
+          </tr>
+        `;
+      }
+
+      tbody.innerHTML = html;
+    }
+
+    function renderSpacing(spacing) {
+      const grid = document.getElementById('spacing-grid');
+      let html = '';
+
+      for (const [varName, item] of Object.entries(spacing)) {
+        const widthPercent = Math.min(100, Math.max(8, (item.rawPx / 32) * 100));
+        html += `
+          <div class="spacing-card" onclick="copyText('var(${varName})')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong>${item.name}</strong>
+              <code style="font-size: 11px; color: var(--color-primary);">var(${varName})</code>
+            </div>
+            <div class="spacing-bar-wrapper">
+              <div class="spacing-bar" style="width: ${widthPercent}%;">
+                ${item.rawPx > 0 ? item.value : ''}
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--color-on-surface-variant); display: flex; justify-content: space-between;">
+              <span>Pixel: ${item.value}</span>
+              <span>Alias: ${item.alias ? `var(${item.alias})` : '—'}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      grid.innerHTML = html;
+    }
+  </script>
+</body>
+</html>

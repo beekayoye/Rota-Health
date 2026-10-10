@@ -1,0 +1,44 @@
+/**
+ * ============================================================================
+ * DESIGN SYSTEM TOKENS: SPACING SCALE
+ * ============================================================================
+ * 
+ * Predictable spacing scale for margins, paddings, gaps, and component sizing.
+ * Both descriptive names (--spacing-small) and industry-standard t-shirt sizes
+ * (--spacing-sm) are provided for developer ergonomics.
+ * ============================================================================
+ */
+
+:root {
+  /* no spacing (0px) */
+  --spacing-no: 0px;
+  --spacing-none: var(--spacing-no);
+
+  /* extra small spacing (4px) */
+  --spacing-extra-small: 0.25rem;
+  --spacing-xs: var(--spacing-extra-small);
+
+  /* small spacing (8px) */
+  --spacing-small: 0.5rem;
+  --spacing-sm: var(--spacing-small);
+
+  /* medium spacing (12px) */
+  --spacing-medium: 0.75rem;
+  --spacing-md: var(--spacing-medium);
+
+  /* base spacing (16px) */
+  --spacing-base: 1rem;
+
+  /* large spacing (20px) */
+  --spacing-large: 1.25rem;
+  --spacing-lg: var(--spacing-large);
+
+  /* extra large spacing (24px) */
+  --spacing-extra-large: 1.5rem;
+  --spacing-xl: var(--spacing-extra-large);
+
+  /* very large spacing (32px) */
+  --spacing-very-large: 2rem;
+  --spacing-2xl: var(--spacing-very-large);
+
+}
