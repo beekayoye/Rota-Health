@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+.expo
+package-lock.json
+*.min.js
+*.min.css
+design-tokens.css
+design-tokens.rem.css
+server/prisma/migrations
