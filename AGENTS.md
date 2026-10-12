@@ -1,9 +1,11 @@
 # AGENTS.md
 
 ## 1. Project in one paragraph
+
 Rota Health is an Android shift scheduling app for small clinics with 5 to 40 shift workers. It gives clinics one trusted shift schedule, approved swaps, sleep-respecting alerts, offline shift access, and a per-seat bill where mid-cycle additions cost only the days left in the month. Three roles use the app: Owner (creates clinic, pays bills, manages plans and seats), Manager (drafts and publishes shifts, approves swaps), and Staff (views shifts offline, requests swaps, sets quiet hours). Tagline: "Shift scheduling for clinics that never close." Version 1 is Android only, built with Expo so iOS can follow later without a rewrite. (PRD 1, 2, 3, 25)
 
 ## 2. Source of truth and how to use it
+
 - `docs/PRD.md` is the sole source of truth.
 - Read specific PRD sections before starting work:
   - API endpoints, request validation, error shapes, idempotency: PRD 10
@@ -33,7 +35,9 @@ Rota Health is an Android shift scheduling app for small clinics with 5 to 40 sh
   - No cross-clinic overlap checks on the server.
 
 ## 3. Locked tech stack
+
 Agents must use the locked tech stack exactly. Never add an alternative or a new dependency without asking first.
+
 - Mobile client: React Native with Expo and Expo Router (Android development build through EAS Build) (PRD 1, 8, 23)
 - List virtualization: FlashList (PRD 8, 23)
 - State management: TanStack Query (server state), Zustand (client UI state) (PRD 14)
@@ -53,7 +57,9 @@ Agents must use the locked tech stack exactly. Never add an alternative or a new
 - Hosting: Railway (API service and worker service) (PRD 16)
 
 ## 4. Repo layout
+
 The repository is structured as a monorepo. Decision: Monorepo uses npm workspaces (PRD 23).
+
 - `/app`: React Native Expo mobile application.
 - `/server`: Node.js Express backend and BullMQ worker.
 - `/scripts`: Operational, maintenance, and verification scripts (PRD 11.6, 15.4, 16.7, 16.9, 18.2).
@@ -61,6 +67,7 @@ The repository is structured as a monorepo. Decision: Monorepo uses npm workspac
 - `/load-tests`: k6 load test scripts and configuration.
 
 Detailed structure (unconfirmed folders inside `/app` and `/server` are marked "proposed"):
+
 ```
 /
 ├── app/                                 # Expo React Native mobile app
@@ -121,23 +128,25 @@ Detailed structure (unconfirmed folders inside `/app` and `/server` are marked "
 ```
 
 ## 5. Commands
+
 The commands below are best guesses for the scaffolded project.
 
-| Task | Command | Status |
-| :--- | :--- | :--- |
-| Install all dependencies | `npm install` | TODO: confirm once scaffolded |
-| Start API dev server | `npm run dev:server --workspace=server` | TODO: confirm once scaffolded |
-| Start background worker | `npm run dev:worker --workspace=server` | TODO: confirm once scaffolded |
-| Start mobile app dev server | `npx expo start --cwd app` | TODO: confirm once scaffolded |
-| Run server test suite | `npm test --workspace=server` | TODO: confirm once scaffolded |
-| Run app unit tests | `npm test --workspace=app` | TODO: confirm once scaffolded |
+| Task                         | Command                                                                                                                                                                                  | Status                        |
+| :--------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------- |
+| Install all dependencies     | `npm install`                                                                                                                                                                            | TODO: confirm once scaffolded |
+| Start API dev server         | `npm run dev:server --workspace=server`                                                                                                                                                  | TODO: confirm once scaffolded |
+| Start background worker      | `npm run dev:worker --workspace=server`                                                                                                                                                  | TODO: confirm once scaffolded |
+| Start mobile app dev server  | `npm run dev:app` (or `npx expo start app`)                                                                                                                                              | TODO: confirm once scaffolded |
+| Run server test suite        | `npm test --workspace=server`                                                                                                                                                            | TODO: confirm once scaffolded |
+| Run app unit tests           | `npm test --workspace=app`                                                                                                                                                               | TODO: confirm once scaffolded |
 | Run migrations (both shards) | `npm run db:migrate --workspace=server` (runs `prisma migrate deploy` once for shard A and once for shard B, setting each shard's `DATABASE_URL` and `DIRECT_URL`, as in PRD 9 and 16.1) | TODO: confirm once scaffolded |
-| Seed databases (both shards) | `npm run db:seed --workspace=server` | TODO: confirm once scaffolded |
-| Lint codebase | `npm run lint` | TODO: confirm once scaffolded |
-| Typecheck TypeScript | `npm run typecheck` | TODO: confirm once scaffolded |
-| Build EAS Android dev build | `eas build --platform android --profile development` | TODO: confirm once scaffolded |
+| Seed databases (both shards) | `npm run db:seed --workspace=server`                                                                                                                                                     | TODO: confirm once scaffolded |
+| Lint codebase                | `npm run lint`                                                                                                                                                                           | TODO: confirm once scaffolded |
+| Typecheck TypeScript         | `npm run typecheck`                                                                                                                                                                      | TODO: confirm once scaffolded |
+| Build EAS Android dev build  | `eas build --platform android --profile development`                                                                                                                                     | TODO: confirm once scaffolded |
 
 ## 6. Non-negotiable rules
+
 Agents must enforce every rule below without exception:
 
 - **Team isolation:** Every query on a team-owned table must filter by `teamId` through the Prisma client extension. If `teamId` is missing, the extension must throw. When a user requests another clinic's resource, the server must return 404 `NOT_FOUND`, never 403. (PRD 6.2, 15.5)
@@ -168,6 +177,7 @@ Agents must enforce every rule below without exception:
 - **Sharding rules:** Shard routing goes through `team_directory`, never through the hash directly. Global tables live only on Shard A. Migrations and seed scripts must run on both shards. (PRD 9, 16.3)
 
 ## 7. Coding conventions
+
 - TypeScript: Strict mode enabled on both `/app` and `/server`.
 - Error shape: All server error responses must use this exact structure:
   `{ "error": { "code": "SEAT_LIMIT_EXCEEDED", "message": "...", "details": {} } }`. (PRD 10)
@@ -178,6 +188,7 @@ Agents must enforce every rule below without exception:
 - Schemas: Write Zod schemas with `.strict()` directly next to their route handlers. (PRD 10)
 
 ## 8. Testing rules
+
 - Integration tests must run through PgBouncer in transaction mode with `docker-compose.test.yml`. Never mock PostgreSQL in integration tests. (PRD 19)
 - Test suite mapping (agents must update these test suites when modifying corresponding areas):
   - Billing and proration: update `proration.test.ts`, `checkout.test.ts`, and `webhook.test.ts`. (PRD 19)
@@ -194,7 +205,9 @@ Agents must enforce every rule below without exception:
 - A task is not done until all associated test suites pass, including 403 permission and 404 isolation test cases for any new or modified endpoint. (PRD 19)
 
 ## 9. Definition of done for any task
+
 Verify this checklist before marking any task complete:
+
 1. All relevant acceptance criteria in PRD 4 and PRD 6 are met.
 2. Automated tests are written and passing, including 403 and 404 security test cases.
 3. TypeScript typecheck and ESLint pass cleanly with zero errors.
@@ -204,6 +217,7 @@ Verify this checklist before marking any task complete:
 7. An entry added to `docs/LEARNING-LOG.md` if an operational or design lesson was learned.
 
 ## 10. Git workflow
+
 - Branch naming convention (PRD 23):
   - `feat/<feature-name>` for features.
   - `chore/<chore-name>` for setup, builds, and tooling.
@@ -217,7 +231,9 @@ Verify this checklist before marking any task complete:
 - Never commit `.env` files or secrets.
 
 ## 11. When to stop and ask
+
 Stop and ask the user for clarification in any of these situations:
+
 - The PRD is silent or contradictory on a scenario.
 - A change touches money calculations, auth logic, team isolation, or the database schema in a way not described in the PRD.
 - A requirement relies on an unverified item from PRD 26.3 (`[VERIFY IN DOCS]`).
@@ -225,6 +241,7 @@ Stop and ask the user for clarification in any of these situations:
 - A test failure would require weakening an assertion or security rule to pass.
 
 ## 12. Glossary
+
 - **Clinic or Team:** The tenant organization in Rota Health, stored in the `teams` table. (PRD 1, 9)
 - **Seat:** The purchased user capacity under a clinic's subscription plan. (PRD 6.5, 9, 11)
 - **Shard:** One of two independent PostgreSQL databases (`rota-a` or `rota-b`). (PRD 9, 16.3)

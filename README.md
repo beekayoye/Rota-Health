@@ -7,6 +7,7 @@
 ## ⚡ Quick Start
 
 ### 1. Convert Tokens to CSS
+
 ```bash
 # Run the conversion script (generates design-tokens.css and dist/)
 node convert-tokens.js
@@ -17,11 +18,13 @@ npm run build:tokens
 ```
 
 ### 2. Run Test Suite
+
 ```bash
 npm test
 ```
 
 ### 3. Open Interactive Styleguide
+
 Open [`index.html`](./index.html) directly in any web browser to explore all design tokens, swatches, typography scales, spacing, shadows, and interactive components.
 
 ---
@@ -30,12 +33,13 @@ Open [`index.html`](./index.html) directly in any web browser to explore all des
 
 This system implements a strict **Two-Tier Color Architecture**:
 
-| Tier | Namespace | Purpose | Can use in UI? |
-| :--- | :--- | :--- | :--- |
-| **Tier 1: Primitives** | `--primitive-color-*` | Brand foundations & 0–100 tonal stops | 🛑 **NEVER** apply directly to UI |
-| **Tier 2: Color Roles**| `--color-role-*` & `--color-*`| Functional semantic UI colors | ✅ **ALWAYS** apply on the UI |
+| Tier                    | Namespace                      | Purpose                               | Can use in UI?                    |
+| :---------------------- | :----------------------------- | :------------------------------------ | :-------------------------------- |
+| **Tier 1: Primitives**  | `--primitive-color-*`          | Brand foundations & 0–100 tonal stops | 🛑 **NEVER** apply directly to UI |
+| **Tier 2: Color Roles** | `--color-role-*` & `--color-*` | Functional semantic UI colors         | ✅ **ALWAYS** apply on the UI     |
 
 ### Why?
+
 Color Roles reference Primitives via `var(--primitive-color-*, fallback)`. When theming or dark mode is applied, swapping the underlying primitive tokens or overriding color roles preserves accessibility contrast and design integrity without touching component CSS.
 
 ---
@@ -59,5 +63,6 @@ Running `node convert-tokens.js` generates:
 ## 📖 Complete Documentation
 
 For the full design system reference, token dictionary, and component recipes, see:
+
 - [📘 DESIGN_SYSTEM_DOCUMENTATION.md](./DESIGN_SYSTEM_DOCUMENTATION.md)
 - [🌐 Interactive Token Explorer (index.html)](./index.html)

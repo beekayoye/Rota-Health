@@ -1,23 +1,32 @@
 {
-  "name": "rota-health-design-tokens",
+  "name": "rota-health",
   "version": "1.0.0",
-  "description": "Design token converter for Rota Health design system: transforms Figma tokens into production CSS variables and modular packages with strict Two-Tier color architecture.",
-  "main": "dist/tokens.js",
-  "style": "design-tokens.css",
+  "private": true,
+  "workspaces": [
+    "app",
+    "server"
+  ],
   "scripts": {
+    "start": "npm run dev:app",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:worker": "npm run dev:worker --workspace=server",
+    "dev:app": "npm run start --workspace=app",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
     "tokens": "node convert-tokens.js",
     "build:tokens": "node convert-tokens.js --split",
-    "build:rem": "node convert-tokens.js --rem --output design-tokens.rem.css",
-    "test": "node test/convert-tokens.test.js"
+    "build:rem": "node convert-tokens.js --rem --output design-tokens.rem.css"
   },
-  "keywords": [
-    "design-tokens",
-    "css-variables",
-    "color-roles",
-    "design-system",
-    "figma-tokens",
-    "material-tokens"
-  ],
-  "author": "Rota Health",
-  "license": "MIT"
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.0.1",
+    "prettier": "^3.5.0",
+    "typescript": "^5.7.3"
+  }
 }

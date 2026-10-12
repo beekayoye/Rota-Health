@@ -2,27 +2,27 @@
  * ============================================================================
  * DESIGN SYSTEM TOKEN CONVERTER (tokens-to-css)
  * ============================================================================
- * 
+ *
  * Converts design tokens from Figma Tokens format (JSON) into production-ready
  * CSS custom properties (variables), modular stylesheets, and JS/JSON exports.
- * 
+ *
  * ----------------------------------------------------------------------------
  * COLOR ARCHITECTURE NOTICE:
  * ----------------------------------------------------------------------------
  * This design system implements a strict Two-Tier Color Architecture:
- * 
+ *
  * 1. PRIMITIVES (Foundational Palette):
  *    - Located under `primitives colors` (e.g., Primary 0-100, Neutral, Error).
  *    - Namespace in CSS: `--primitive-color-*`
  *    - RULE: FOUNDATIONAL ONLY. NEVER apply directly to UI components!
- * 
+ *
  * 2. COLOR ROLES (Semantic UI Tokens):
  *    - Located under `color roles` (e.g., primary, on-primary, surface, error).
  *    - Namespace in CSS: `--color-role-*` and `--color-*`
  *    - RULE: UI APPLICATION TOKENS. ALWAYS use these in UI components!
  *    - In CSS, Color Roles reference their corresponding Primitive foundation:
  *      e.g. `--color-role-primary: var(--primitive-color-key-primary, #004ed4ff);`
- * 
+ *
  * ----------------------------------------------------------------------------
  * Author: Antigravity Design Systems Team
  * License: MIT
@@ -51,7 +51,7 @@ const DEFAULT_OPTIONS = {
 /**
  * Converts a string into a clean kebab-case slug.
  * Safely handles camelCase, spaces, underscores, numbers, and symbols.
- * 
+ *
  * @param {string} str - Raw string name
  * @returns {string} Kebab-case slug
  */
@@ -69,7 +69,7 @@ function slugify(str) {
 
 /**
  * Formats a dimension value into CSS unit (px or rem).
- * 
+ *
  * @param {number|string} val - Numeric dimension
  * @param {boolean} useRem - Whether to convert to rem
  * @param {number} baseFontSize - Base font size in px
@@ -88,7 +88,7 @@ function formatDimension(val, useRem = false, baseFontSize = 16) {
 
 /**
  * Formats hex color strings. Ensures standard modern CSS color format.
- * 
+ *
  * @param {string} hex - Raw hex color
  * @returns {string} Standardized hex color
  */
@@ -100,7 +100,7 @@ function formatColor(hex) {
 /**
  * Resolves a token reference path like `{primitives colors.key color group.primary key color}`
  * against the root token tree.
- * 
+ *
  * @param {string} refStr - Reference string with `{path.to.token}`
  * @param {object} rootTokens - Full token JSON tree
  * @returns {{ resolvedToken: object|null, pathParts: string[], primitiveVarName: string|null }}
@@ -132,7 +132,7 @@ function resolveTokenReference(refStr, rootTokens) {
 
 /**
  * Computes canonical CSS variable name for a primitive color based on its JSON path.
- * 
+ *
  * @param {string[]} pathParts - Array of path parts
  * @returns {string} CSS variable name
  */
@@ -150,9 +150,7 @@ function getPrimitiveVarNameFromPath(pathParts) {
   }
 
   // Case 2: Tonal palettes (e.g. primary color palette, neutral variant color palette)
-  const paletteClean = paletteOrGroup
-    .replace(/\s*color\s*palette\s*/i, '')
-    .trim();
+  const paletteClean = paletteOrGroup.replace(/\s*color\s*palette\s*/i, '').trim();
   const paletteSlug = slugify(paletteClean);
 
   // Extract tone number (e.g., primary100 -> 100, neutralvariant90 -> 90)
@@ -164,7 +162,7 @@ function getPrimitiveVarNameFromPath(pathParts) {
 
 /**
  * Extracts and maps all primitive colors from the design tokens.
- * 
+ *
  * @param {object} primitivesSection - The `primitives colors` section of tokens
  * @returns {Array<object>} List of primitive token descriptors
  */
@@ -200,7 +198,7 @@ function processPrimitives(primitivesSection) {
 
 /**
  * Extracts and maps all semantic color roles from the design tokens.
- * 
+ *
  * @param {object} colorRolesSection - The `color roles` section of tokens
  * @param {object} rootTokens - Full token tree for reference resolution
  * @returns {Array<object>} List of color role descriptors
@@ -217,7 +215,10 @@ function processColorRoles(colorRolesSection, rootTokens) {
     const varNameClean = `--color-${roleSlug}`;
 
     const rawRef = roleData.value;
-    const { resolvedToken, pathParts, primitiveVarName } = resolveTokenReference(rawRef, rootTokens);
+    const { resolvedToken, pathParts, primitiveVarName } = resolveTokenReference(
+      rawRef,
+      rootTokens,
+    );
     const resolvedValue = resolvedToken ? formatColor(resolvedToken.value) : rawRef;
 
     results.push({
@@ -239,7 +240,7 @@ function processColorRoles(colorRolesSection, rootTokens) {
 
 /**
  * Extracts and maps all spacing tokens.
- * 
+ *
  * @param {object} spacingSection - The `spacing collection` section of tokens
  * @param {object} options - Configuration options
  * @returns {Array<object>} List of spacing token descriptors
@@ -285,7 +286,7 @@ function processSpacing(spacingSection, options) {
 
 /**
  * Extracts and maps all typography tokens.
- * 
+ *
  * @param {object} typographySection - The `typography` section of tokens
  * @param {object} options - Configuration options
  * @returns {Array<object>} List of typography token descriptors
@@ -304,14 +305,18 @@ function processTypography(typographySection, options) {
     const fontFamily = styleProperties.fontFamily ? styleProperties.fontFamily.value : 'DM Sans';
     const letterSpacing = styleProperties.letterSpacing ? styleProperties.letterSpacing.value : 0;
     const fontStyle = styleProperties.fontStyle ? styleProperties.fontStyle.value : 'normal';
-    const textDecoration = styleProperties.textDecoration ? styleProperties.textDecoration.value : 'none';
+    const textDecoration = styleProperties.textDecoration
+      ? styleProperties.textDecoration.value
+      : 'none';
     const textCase = styleProperties.textCase ? styleProperties.textCase.value : 'none';
 
     // Format units
     const formattedFontSize = formatDimension(fontSize, options.useRem, options.baseFontSize);
     const formattedLineHeight = formatDimension(lineHeight, options.useRem, options.baseFontSize);
     const formattedLetterSpacing = formatDimension(letterSpacing, false);
-    const formattedFontFamily = fontFamily.includes(' ') ? `'${fontFamily}', sans-serif` : `${fontFamily}, sans-serif`;
+    const formattedFontFamily = fontFamily.includes(' ')
+      ? `'${fontFamily}', sans-serif`
+      : `${fontFamily}, sans-serif`;
 
     // Composite font shorthand
     const shorthandFont = `${fontStyle} ${fontWeight} ${formattedFontSize}/${formattedLineHeight} ${formattedFontFamily}`;
@@ -347,7 +352,7 @@ function processTypography(typographySection, options) {
 
 /**
  * Extracts and maps all effect / shadow tokens.
- * 
+ *
  * @param {object} effectSection - The `effect` section of tokens
  * @returns {Array<object>} List of effect token descriptors
  */
@@ -394,7 +399,7 @@ function processEffects(effectSection) {
 /**
  * Generates the complete CSS output string.
  * Includes structured comments, warnings, and formatting.
- * 
+ *
  * @param {object} parsedTokens - Parsed token data collections
  * @param {object} options - Options
  * @returns {object} Object with combined CSS and individual module CSS strings
@@ -686,7 +691,7 @@ ${utilitiesCSS}
 
 /**
  * Generates JavaScript and JSON exports for JS-based environments.
- * 
+ *
  * @param {object} parsedTokens - Parsed token data
  * @returns {{ jsContent: string, jsonContent: string }}
  */
@@ -773,7 +778,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 /**
  * Main conversion execution function.
- * 
+ *
  * @param {object} customOptions - Custom options overriding defaults
  * @returns {object} Execution summary report
  */
@@ -871,7 +876,8 @@ function convertDesignTokens(customOptions = {}) {
       spacingCount: spacing.length,
       typographyCount: typography.length,
       effectsCount: effects.length,
-      totalTokens: primitives.length + colorRoles.length + spacing.length + typography.length + effects.length,
+      totalTokens:
+        primitives.length + colorRoles.length + spacing.length + typography.length + effects.length,
       filesGenerated: writtenFiles,
     },
     parsedTokens,
