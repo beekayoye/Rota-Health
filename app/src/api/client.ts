@@ -170,7 +170,7 @@ export async function fetchMeAndSyncTeam(): Promise<{
   user: UserProfile;
   clinics: ClinicSummary[];
 }> {
-  const res = await apiClient.get(`${API_BASE_URL}/v1/me`);
+  const res = await apiClient.get('/v1/me');
   const { user, clinics } = res.data;
   const accessToken = useAuthStore.getState().accessToken;
   if (accessToken) {

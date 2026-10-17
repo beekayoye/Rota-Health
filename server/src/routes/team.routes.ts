@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { z } from 'zod';
 import { randomUUID, randomBytes, createHash } from 'node:crypto';
 import { prisma } from '../db/prisma.js';
+import { config } from '../config.js';
 import { validateBody, validateParams } from '../middleware/validate.js';
 import { authenticate } from '../middleware/authenticate.js';
 import {
@@ -194,12 +195,14 @@ teamRouter.get(
     });
 
     const userIds = memberships.map((m) => m.userId);
-    const users = await prisma.user.findMany({
+    const users: Array<{ id: string; name: string; email: string }> = await prisma.user.findMany({
       where: { id: { in: userIds } },
       select: { id: true, name: true, email: true },
     });
 
-    const userMap = new Map(users.map((u) => [u.id, u]));
+    const userMap = new Map<string, { id: string; name: string; email: string }>(
+      users.map((u) => [u.id, u]),
+    );
 
     const members = memberships.map((m) => {
       const u = userMap.get(m.userId);
@@ -478,20 +481,22 @@ teamRouter.post(
       },
     });
 
-    res.status(201).json({
-      invite: {
-        id: invite.id,
-        mode: invite.mode,
-        role: invite.role,
-        maxUses: invite.maxUses,
-        uses: invite.uses,
-        expiresAt: invite.expiresAt,
-      },
-      inviteUrl: `https://api.rotahealth.app/l/invite/${rawToken}`,
-      token: rawToken,
-    });
-  },
-);
+      const inviteUrl = `${config.PUBLIC_BASE_URL}/l/invite/${rawToken}`;
+
+      res.status(201).json({
+        invite: {
+          id: invite.id,
+          mode: invite.mode,
+          role: invite.role,
+          maxUses: invite.maxUses,
+          uses: invite.uses,
+          expiresAt: invite.expiresAt,
+        },
+        inviteUrl,
+        token: rawToken,
+      });
+    },
+  );
 
 // DELETE /v1/teams/:teamId/invites/:inviteId (Owner, Manager)
 teamRouter.delete(

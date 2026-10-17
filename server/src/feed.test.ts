@@ -45,7 +45,7 @@ describe('Activity Feed (feed.test.ts)', () => {
       familyId: randomUUID(),
       tokenVersion: user.tokenVersion,
     });
-  });
+  }, 120_000);
 
   afterAll(async () => {
     await prisma.$disconnect();

@@ -7,15 +7,19 @@ import { getOrCreateDeviceId } from '../storage/secure-store';
 /**
  * Configure global notification presentation when received in foreground
  */
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
+try {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    }),
+  });
+} catch {
+  // Gracefully ignored in Expo Go where remote push notifications were removed in SDK 53+
+}
 
 /**
  * Registers device with backend (PRD 6.6, 12, 15.5):
@@ -27,6 +31,10 @@ Notifications.setNotificationHandler({
  */
 export async function registerForPushNotificationsAsync(): Promise<string | null> {
   try {
+    if (Constants.appOwnership === 'expo') {
+      // Remote notifications are not supported in Expo Go on SDK 53+; requires a development build
+      return null;
+    }
     // 1. Android Notification Channels (PRD 6.6, PART 3)
     if (Platform.OS === 'android') {
       await Notifications.setNotificationChannelAsync('shifts', {

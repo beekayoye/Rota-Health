@@ -1,68 +1,81 @@
-# Rota Health Design System — Token Converter
+# Rota Health
 
-> Automated Design Tokens to CSS Custom Properties converter with strict Two-Tier Color Architecture.
+> Shift scheduling for clinics that never close.
+
+- **Deployed backend:** `<placeholder URL>`
+- **Android build:** `<placeholder link>`
 
 ---
 
-## ⚡ Quick Start
+## About Rota Health
 
-### 1. Convert Tokens to CSS
+Rota Health is an Android shift scheduling application designed specifically for small clinics with 5 to 40 shift workers. It delivers:
+- **One trusted shift schedule:** Clash prevention, timezone-aware ISO calendar views, and draft/publish workflows.
+- **Approved swaps:** 1-on-1 shift swaps with manager approval.
+- **Sleep-respecting alerts:** Quiet hours algorithm delaying non-urgent push notifications until wake hours.
+- **Offline shift access:** Secure local cache with encrypted MMKV for offline reliability.
+- **Fair per-seat billing:** Seat-based pricing with exact day-prorated charges on mid-cycle changes.
 
+---
+
+## 🚀 Run It Yourself
+
+### Prerequisites
+- Node.js >= 20.0.0
+- npm >= 10.0.0
+- Docker (optional, for local PostgreSQL / Redis) or hosted Supabase PostgreSQL + Upstash Redis instances.
+
+### 1. Installation
+Clone the repository and install dependencies:
 ```bash
-# Run the conversion script (generates design-tokens.css and dist/)
-node convert-tokens.js
-
-# Or with npm scripts:
-npm run tokens
-npm run build:tokens
+npm install
 ```
 
-### 2. Run Test Suite
-
+### 2. Configure Environment Variables
+Copy `.env.example` to `.env` inside `server/` (and root if applicable) and configure:
 ```bash
-npm test
+DATABASE_URL="postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres?sslmode=require"
+DIRECT_URL="postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres?sslmode=require"
+UPSTASH_REDIS_REST_URL="https://[cluster].upstash.io"
+UPSTASH_REDIS_REST_TOKEN="[token]"
+JWT_SECRET="super-secret-key-32-chars-long"
+PUBLIC_BASE_URL="http://localhost:3000"
+PORT=3000
 ```
 
-### 3. Open Interactive Styleguide
+### 3. Run Migrations & Seed Data
+```bash
+# Apply Prisma migrations
+npm run db:migrate --workspace=server
 
-Open [`index.html`](./index.html) directly in any web browser to explore all design tokens, swatches, typography scales, spacing, shadows, and interactive components.
+# Seed demo clinic (Grace Point with 5 staff members)
+npx tsx scripts/seed-demo.ts
+```
 
----
+### 4. Start Development Services
+Run the API server:
+```bash
+npm run dev:server
+```
 
-## 🎨 Color Architecture Notice
+Run the background worker (outbox relay & notifications):
+```bash
+npm run dev:worker
+```
 
-This system implements a strict **Two-Tier Color Architecture**:
+Start the Expo mobile application:
+```bash
+npm run dev:app
+```
 
-| Tier                    | Namespace                      | Purpose                               | Can use in UI?                    |
-| :---------------------- | :----------------------------- | :------------------------------------ | :-------------------------------- |
-| **Tier 1: Primitives**  | `--primitive-color-*`          | Brand foundations & 0–100 tonal stops | 🛑 **NEVER** apply directly to UI |
-| **Tier 2: Color Roles** | `--color-role-*` & `--color-*` | Functional semantic UI colors         | ✅ **ALWAYS** apply on the UI     |
+### 5. Run Tests
+```bash
+# Server test suite
+npm test --workspace=server
 
-### Why?
+# App unit tests
+npm test --workspace=app
 
-Color Roles reference Primitives via `var(--primitive-color-*, fallback)`. When theming or dark mode is applied, swapping the underlying primitive tokens or overriding color roles preserves accessibility contrast and design integrity without touching component CSS.
-
----
-
-## 📁 Generated Outputs
-
-Running `node convert-tokens.js` generates:
-
-- **[`design-tokens.css`](./design-tokens.css)**: Unified, production-ready stylesheet bundle.
-- **`dist/tokens-color-roles.css`**: Semantic UI color roles (`--color-role-*`, `--color-*`).
-- **`dist/tokens-primitives.css`**: Foundational palettes and key colors (`--primitive-color-*`).
-- **`dist/tokens-typography.css`**: DM Sans typography variables (`--typography-*`).
-- **`dist/tokens-spacing.css`**: 0–32px spacing scale with t-shirt aliases (`--spacing-*`).
-- **`dist/tokens-effects.css`**: Elevation box-shadow variables (`--shadow-*`).
-- **`dist/tokens-utilities.css`**: Ready-to-use utility classes (`.type-*`, `.shadow-*`).
-- **`dist/tokens.js`**: Universal JavaScript module (ESM & CJS) for React, Vue, or Tailwind.
-- **`dist/tokens.resolved.json`**: Resolved JSON token dictionary.
-
----
-
-## 📖 Complete Documentation
-
-For the full design system reference, token dictionary, and component recipes, see:
-
-- [📘 DESIGN_SYSTEM_DOCUMENTATION.md](./DESIGN_SYSTEM_DOCUMENTATION.md)
-- [🌐 Interactive Token Explorer (index.html)](./index.html)
+# Smoke test against running backend
+npx tsx scripts/smoke.ts http://localhost:3000
+```

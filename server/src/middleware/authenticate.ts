@@ -89,16 +89,17 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
       return;
     }
 
-    currentTv = user.tokenVersion;
+    const userTv = user.tokenVersion;
+    currentTv = userTv;
 
     try {
-      await redis.set(redisKey, currentTv.toString(), 'EX', 60);
+      await redis.set(redisKey, userTv.toString(), 'EX', 60);
     } catch {
       // Ignore Redis cache failure
     }
   }
 
-  if (claims.tv !== currentTv) {
+  if (currentTv === null || claims.tv !== currentTv) {
     res.status(401).json({
       error: {
         code: 'TOKEN_REVOKED',

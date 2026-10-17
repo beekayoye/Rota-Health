@@ -17,11 +17,13 @@ export default function WelcomeScreen() {
     if (status === 'authenticated' && user) {
       if (pendingInviteUrl) {
         router.replace(`/invite/${pendingInviteUrl}` as any);
+      } else if (clinics.length === 0) {
+        router.replace('/create-clinic' as any);
       } else {
         router.replace('/home');
       }
     }
-  }, [status, user, pendingInviteUrl, router]);
+  }, [status, user, clinics.length, pendingInviteUrl, router]);
 
   if (status === 'loading') {
     return (

@@ -1,0 +1,36 @@
+name: Keep Supabase Awake
+
+on:
+  schedule:
+    # Run every 12 hours to prevent Supabase free tier projects from pausing (PRD 22 risk 1)
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  healthcheck:
+    name: Ping Healthz Endpoint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping API Healthz
+        env:
+          API_HEALTH_URL: ${{ secrets.API_HEALTH_URL }}
+        run: |
+          if [ -z "$API_HEALTH_URL" ]; then
+            echo "Error: API_HEALTH_URL secret is not set in GitHub repository settings."
+            exit 1
+          fi
+
+          echo "Pinging health check endpoint..."
+          HTTP_STATUS=$(curl -s -S -o response.json -w "%{http_code}" "$API_HEALTH_URL")
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "Response payload:"
+          cat response.json
+          echo ""
+
+          if [ "$HTTP_STATUS" -ne 200 ]; then
+            echo "Health check failed with status $HTTP_STATUS"
+            exit 1
+          fi
+
+          echo "Health check passed. Supabase databases & Redis are active."

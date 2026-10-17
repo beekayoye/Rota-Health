@@ -1,11 +1,11 @@
 import { Queue, Worker, Job } from 'bullmq';
 import { prisma } from '../db/prisma.js';
 import pino from 'pino';
+import { config } from '../config.js';
 
 const logger = pino({ name: 'swap-expiry' });
 
-const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-const connection = { url: redisUrl };
+const connection = { url: config.REDIS_URL };
 
 export const swapExpiryQueue = new Queue('swap-expiry', {
   connection,

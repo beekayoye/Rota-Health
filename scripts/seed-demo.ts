@@ -59,14 +59,56 @@ async function main() {
         ownerId: owner.id,
       },
     });
+  }
 
-    // Create default subscription
-    await prisma.subscription.create({
+  // Grace Point's subscription ACTIVE on STARTER with 5 seats,
+  // currentPeriodStart = now minus 10 days, currentPeriodEnd = currentPeriodStart plus 30 days, periodNumber 1
+  const periodStart = DateTime.utc().minus({ days: 10 }).toJSDate();
+  const periodEnd = DateTime.fromJSDate(periodStart).plus({ days: 30 }).toJSDate();
+
+  await prisma.subscription.upsert({
+    where: { teamId: team.id },
+    create: {
+      teamId: team.id,
+      plan: 'STARTER',
+      seats: 5,
+      status: 'ACTIVE',
+      currentPeriodStart: periodStart,
+      currentPeriodEnd: periodEnd,
+      periodNumber: 1,
+    },
+    update: {
+      plan: 'STARTER',
+      seats: 5,
+      status: 'ACTIVE',
+      currentPeriodStart: periodStart,
+      currentPeriodEnd: periodEnd,
+      periodNumber: 1,
+      pendingPlan: null,
+      pendingSeats: null,
+    },
+  });
+
+  // Plus one matching CHARGE ledger row of 2000 cents
+  const existingCharge = await prisma.ledgerEntry.findFirst({
+    where: {
+      teamId: team.id,
+      type: 'CHARGE',
+      periodNumber: 1,
+    },
+  });
+
+  if (!existingCharge) {
+    await prisma.ledgerEntry.create({
       data: {
         teamId: team.id,
+        type: 'CHARGE',
+        amountCents: 2000,
+        currency: 'USD',
         plan: 'STARTER',
         seats: 5,
-        status: 'ACTIVE',
+        periodNumber: 1,
+        meta: { description: 'Initial Starter plan charge' },
       },
     });
   }

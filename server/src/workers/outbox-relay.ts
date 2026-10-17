@@ -1,9 +1,9 @@
 import { Queue } from 'bullmq';
 import { prisma } from '../db/prisma.js';
 import { logger } from '../lib/logger.js';
+import { config } from '../config.js';
 
-const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-const connection = { url: redisUrl };
+const connection = { url: config.REDIS_URL };
 
 export const notificationsQueue = new Queue('notifications', {
   connection,
@@ -33,38 +33,50 @@ export async function runOutboxRelayOnce(): Promise<number> {
   // Use raw SQL with FOR UPDATE SKIP LOCKED to prevent concurrent relay races across shards/workers.
   // The SELECT ... FOR UPDATE SKIP LOCKED, the enqueues, and the sent_at update all happen
   // inside ONE transaction, so row locks are held until sent_at is written.
-  return await prisma.$transaction(async (tx) => {
-    const rows = await tx.$queryRaw<Array<{ id: string; team_id: string; kind: string; payload: any }>>`
-      SELECT id, team_id, kind, payload
-      FROM outbox_events
-      WHERE sent_at IS NULL
-      ORDER BY created_at ASC
-      LIMIT 200
-      FOR UPDATE SKIP LOCKED
-    `;
+  return await prisma.$transaction(
+    async (tx) => {
+      const rows = await tx.$queryRaw<Array<{ id: string; team_id: string; kind: string; payload: any }>>`
+        SELECT id, team_id, kind, payload
+        FROM outbox_events
+        WHERE sent_at IS NULL
+        ORDER BY created_at ASC
+        LIMIT 100
+        FOR UPDATE SKIP LOCKED
+      `;
 
-    if (rows.length === 0) {
-      return 0;
-    }
-
-    for (const row of rows) {
-      if (row.kind === 'notify') {
-        await notificationsQueue.add('notify', row.payload, {
-          jobId: row.id,
-          removeOnComplete: { age: 86400 },
-        });
+      if (rows.length === 0) {
+        return 0;
       }
-    }
 
-    const rowIds = rows.map((r) => r.id);
-    await tx.$executeRaw`
-      UPDATE outbox_events
-      SET sent_at = NOW()
-      WHERE id = ANY(${rowIds}::uuid[])
-    `;
+      const notifyJobs = rows
+        .filter((r) => r.kind === 'notify')
+        .map((r) => ({
+          name: 'notify',
+          data: r.payload,
+          opts: {
+            jobId: r.id,
+            removeOnComplete: { age: 86400 },
+          },
+        }));
 
-    return rows.length;
-  });
+      if (notifyJobs.length > 0) {
+        await notificationsQueue.addBulk(notifyJobs);
+      }
+
+      const rowIds = rows.map((r) => r.id);
+      await tx.$executeRaw`
+        UPDATE outbox_events
+        SET sent_at = NOW()
+        WHERE id = ANY(${rowIds}::uuid[])
+      `;
+
+      return rows.length;
+    },
+    {
+      timeout: 15000,
+      maxWait: 5000,
+    },
+  );
 }
 
 /**

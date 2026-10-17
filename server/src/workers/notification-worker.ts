@@ -3,11 +3,11 @@ import { Expo, ExpoPushMessage, ExpoPushTicket } from 'expo-server-sdk';
 import { DateTime } from 'luxon';
 import { prisma } from '../db/prisma.js';
 import { logger } from '../lib/logger.js';
+import { config } from '../config.js';
 import { decideDelivery } from './quiet-hours.js';
 import { notificationsQueue, pushReceiptsQueue } from './outbox-relay.js';
 
-const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-const connection = { url: redisUrl };
+const connection = { url: config.REDIS_URL };
 
 // Global Expo client instance, allows test override
 let expoClient = new Expo();

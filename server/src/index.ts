@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { prisma } from './db/prisma.js';
 import { redis } from './lib/redis.js';
 import { logger } from './lib/logger.js';
+import { config } from './config.js';
 import { authRouter } from './routes/auth.routes.js';
 import { meRouter } from './routes/me.routes.js';
 import { teamRouter } from './routes/team.routes.js';
@@ -13,6 +14,8 @@ import { activityRouter } from './routes/activity.routes.js';
 import { billingRouter } from './routes/billing.routes.js';
 
 export const app = express();
+
+app.set('trust proxy', 1);
 
 app.use(express.json());
 
@@ -101,10 +104,50 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = config.PORT;
 
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
+if (config.NODE_ENV !== 'test') {
+  const server = app.listen(PORT, () => {
     logger.info(`Rota Health API server listening on port ${PORT}`);
   });
+
+  const shutdown = async (signal: string) => {
+    logger.info(`Received ${signal}, initiating graceful API shutdown...`);
+    const forceExitTimeout = setTimeout(() => {
+      logger.error('Shutdown deadline exceeded (10s), forcing process exit.');
+      process.exit(1);
+    }, 10000);
+    forceExitTimeout.unref();
+
+    if (server) {
+      await new Promise<void>((resolve) => {
+        server.close((err) => {
+          if (err) logger.error({ err }, 'Error closing HTTP server');
+          else logger.info('HTTP server stopped accepting new connections');
+          resolve();
+        });
+      });
+    }
+
+    try {
+      await prisma.$disconnect();
+      logger.info('Prisma database client disconnected');
+    } catch (err) {
+      logger.error({ err }, 'Error disconnecting Prisma client');
+    }
+
+    try {
+      await redis.quit();
+      logger.info('Redis connection closed');
+    } catch (err) {
+      logger.error({ err }, 'Error closing Redis connection');
+    }
+
+    clearTimeout(forceExitTimeout);
+    logger.info('API shutdown completed cleanly');
+    process.exit(0);
+  };
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
 }

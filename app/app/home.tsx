@@ -44,7 +44,12 @@ export default function HomeScreen() {
           router.replace('/create-clinic' as any);
         }
       })
-      .catch(() => {})
+      .catch((err) => {
+        console.warn('Failed to sync clinic list:', err);
+        if (isMounted && clinics.length === 0) {
+          router.replace('/create-clinic' as any);
+        }
+      })
       .finally(() => {
         if (isMounted) setInitialLoading(false);
       });
@@ -52,7 +57,7 @@ export default function HomeScreen() {
     return () => {
       isMounted = false;
     };
-  }, [router]);
+  }, [router, clinics.length]);
 
   const activeClinic = clinics.find((c) => c.id === activeTeamId) || clinics[0];
   const isOwner = activeRole === 'OWNER';
@@ -66,7 +71,7 @@ export default function HomeScreen() {
     try {
       const refreshToken = await getStoredRefreshToken();
       if (refreshToken) {
-        await apiClient.post(`${API_BASE_URL}/v1/auth/logout`, { refreshToken }).catch(() => {});
+        await apiClient.post('/v1/auth/logout', { refreshToken }).catch(() => {});
       }
     } finally {
       await performLogout();
@@ -81,7 +86,7 @@ export default function HomeScreen() {
 
     try {
       const deviceId = await getOrCreateDeviceId();
-      await apiClient.post(`${API_BASE_URL}/v1/auth/logout-all`, { deviceId });
+      await apiClient.post('/v1/auth/logout-all', { deviceId });
       await performLogout();
       router.replace('/');
     } catch (err: unknown) {

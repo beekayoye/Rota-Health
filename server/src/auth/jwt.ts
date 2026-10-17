@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { config } from '../config.js';
 
-const JWT_SECRET =
-  process.env.JWT_SECRET || 'rota_health_dev_secret_must_be_32_bytes_long_minimum!';
+const JWT_SECRET = config.JWT_SECRET;
 
 export interface AccessTokenClaims {
   sub: string; // user ID

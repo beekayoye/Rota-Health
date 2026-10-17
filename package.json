@@ -6,6 +6,19 @@
     "app",
     "server"
   ],
+  "engines": {
+    "node": "22.x",
+    "npm": ">=10.0.0"
+  },
+  "allowScripts": {
+    "@prisma/client": true,
+    "@prisma/engines": true,
+    "prisma": true,
+    "argon2": true,
+    "esbuild": true,
+    "msgpackr-extract": true,
+    "@sentry/cli": true
+  },
   "scripts": {
     "start": "npm run dev:app",
     "dev:server": "npm run dev --workspace=server",
@@ -19,7 +32,8 @@
     "test": "npm run test --workspaces --if-present",
     "tokens": "node convert-tokens.js",
     "build:tokens": "node convert-tokens.js --split",
-    "build:rem": "node convert-tokens.js --rem --output design-tokens.rem.css"
+    "build:rem": "node convert-tokens.js --rem --output design-tokens.rem.css",
+    "postinstall": "node -e \"const fs=require('fs'),p=require('path');if(!fs.existsSync('node_modules/expo-router')&&fs.existsSync('app/node_modules/expo-router'))fs.symlinkSync(p.resolve('app/node_modules/expo-router'),p.resolve('node_modules/expo-router'),'junction');const f='node_modules/expo-notifications/build/warnOfExpoGoPushUsage.js';if(fs.existsSync(f)){const c=fs.readFileSync(f,'utf8');if(c.includes('throw new Error(message)'))fs.writeFileSync(f,c.replace('throw new Error(message)','console.warn(message)'));};const t='node_modules/expo-notifications/build/TopicSubscriptionModule.android.js';if(fs.existsSync(t)){const c=fs.readFileSync(t,'utf8');if(c.includes('requireNativeModule('))fs.writeFileSync(t,c.replace('requireNativeModule(','requireOptionalNativeModule('));};const ts='node_modules/expo-notifications/tsconfig.json';if(fs.existsSync(ts)){const c=fs.readFileSync(ts,'utf8');if(c.includes('expo-module-scripts/tsconfig.base'))fs.writeFileSync(ts,c.replace('\"extends\": \"expo-module-scripts/tsconfig.base\",',''));}\""
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.18.0",

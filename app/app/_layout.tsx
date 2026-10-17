@@ -118,35 +118,44 @@ export default function RootLayout() {
       handleDeepLink(data.url);
     };
 
-    // Cold-start notification check (PRD 12.6)
-    Notifications.getLastNotificationResponseAsync().then((response) => {
-      if (response) {
-        handleNotificationResponse(response);
-      }
-    });
+    // Cold-start notification check and listeners (PRD 12.6, PART 3)
+    let receivedSub: { remove: () => void } | undefined;
+    let responseSub: { remove: () => void } | undefined;
 
-    // Foreground notification listener - refresh affected queries (PART 3.4)
-    const receivedSub = Notifications.addNotificationReceivedListener(() => {
-      queryClient.invalidateQueries({ queryKey: ['me', 'shifts', 'upcoming'] });
-      const currTeamId = useTeamStore.getState().activeTeamId;
-      if (currTeamId) {
-        queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'shifts'] });
-        queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'swaps'] });
-        queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'activity'] });
-        queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'billing'] });
-      }
-    });
+    try {
+      Notifications.getLastNotificationResponseAsync()
+        .then((response) => {
+          if (response) {
+            handleNotificationResponse(response);
+          }
+        })
+        .catch(() => {});
 
-    // Response tap listener
-    const responseSub =
-      Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
+      // Foreground notification listener - refresh affected queries (PART 3.4)
+      receivedSub = Notifications.addNotificationReceivedListener(() => {
+        queryClient.invalidateQueries({ queryKey: ['me', 'shifts', 'upcoming'] });
+        const currTeamId = useTeamStore.getState().activeTeamId;
+        if (currTeamId) {
+          queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'shifts'] });
+          queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'swaps'] });
+          queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'activity'] });
+          queryClient.invalidateQueries({ queryKey: ['team', currTeamId, 'billing'] });
+        }
+      });
+
+      // Response tap listener
+      responseSub =
+        Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
+    } catch {
+      // Ignored in Expo Go on SDK 53+ where remote notifications were removed
+    }
 
     Linking.getInitialURL().then(handleDeepLink);
     const linkingSub = Linking.addEventListener('url', ({ url }) => handleDeepLink(url));
 
     return () => {
-      receivedSub.remove();
-      responseSub.remove();
+      receivedSub?.remove();
+      responseSub?.remove();
       linkingSub.remove();
     };
   }, [setStatus, handleDeepLink, setPendingUrl, setActiveTeam]);

@@ -51,11 +51,13 @@ const reasonBodySchema = z
 async function formatSwap(swap: any) {
   const userIds = [swap.requesterId, swap.targetUserId];
   if (swap.decidedBy) userIds.push(swap.decidedBy);
-  const users = await prisma.user.findMany({
+  const users: Array<{ id: string; name: string; email?: string | null }> = await prisma.user.findMany({
     where: { id: { in: userIds } },
     select: { id: true, name: true, email: true },
   });
-  const userMap = new Map(users.map((u) => [u.id, u]));
+  const userMap = new Map<string, { id: string; name: string; email?: string | null }>(
+    users.map((u) => [u.id, u]),
+  );
 
   return {
     id: swap.id,
@@ -130,11 +132,13 @@ swapRouter.get(
       ]),
     ];
 
-    const users = await prisma.user.findMany({
+    const users: Array<{ id: string; name: string; email?: string | null }> = await prisma.user.findMany({
       where: { id: { in: userIds } },
       select: { id: true, name: true, email: true },
     });
-    const userMap = new Map(users.map((u) => [u.id, u]));
+    const userMap = new Map<string, { id: string; name: string; email?: string | null }>(
+      users.map((u) => [u.id, u]),
+    );
 
     const formattedSwaps = swaps.map((swap) => ({
       id: swap.id,
