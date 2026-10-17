@@ -92,18 +92,18 @@ describe('Activity Feed (feed.test.ts)', () => {
       let totalItems = 0;
 
       while (true) {
-        const url = cursor
+        const url: string = cursor
           ? `/v1/teams/${teamId}/activity?limit=20&cursor=${encodeURIComponent(cursor)}`
           : `/v1/teams/${teamId}/activity?limit=20`;
 
-        const res = await request(app)
+        const res: request.Response = await request(app)
           .get(url)
           .set('Authorization', `Bearer ${userToken}`);
 
         expect(res.status).toBe(200);
         expect(Array.isArray(res.body.items)).toBe(true);
 
-        const items: Array<{ id: string; createdAt: string; payload: any }> = res.body.items;
+        const items: Array<{ id: string; createdAt: string; payload: unknown }> = res.body.items;
         pageCount++;
         totalItems += items.length;
 
