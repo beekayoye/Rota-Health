@@ -21,7 +21,10 @@
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["RECEIVE_BOOT_COMPLETED", "POST_NOTIFICATIONS"]
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "POST_NOTIFICATIONS"
+      ]
     },
     "plugins": [
       "expo-router",
@@ -36,6 +39,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6675e2c9-3ccc-4b0f-9190-4f83e7d213f0"
+      }
+    },
+    "owner": "beekay1"
   }
 }
