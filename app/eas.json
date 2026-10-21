@@ -16,7 +16,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_APP_ENV": "demo"
+        "EXPO_PUBLIC_APP_ENV": "demo",
+        "EXPO_PUBLIC_API_URL": "https://rota-health-production.up.railway.app/v1/healthz"
       }
     },
     "production": {

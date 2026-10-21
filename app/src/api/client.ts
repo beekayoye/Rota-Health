@@ -13,7 +13,7 @@ import Constants from 'expo-constants';
 
 function resolveApiBaseUrl(): string {
   if (process.env.EXPO_PUBLIC_API_URL) {
-    return process.env.EXPO_PUBLIC_API_URL;
+    return process.env.EXPO_PUBLIC_API_URL.replace(/\/v1\/healthz\/?$/, '').replace(/\/+$/, '');
   }
   // Automatically extract host IP from Metro in development (works for physical devices on Wi-Fi)
   const hostUri = Constants.expoConfig?.hostUri;
