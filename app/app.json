@@ -7,11 +7,6 @@
     "icon": "./assets/icon.png",
     "scheme": "rotahealth",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.rotahealth.app"

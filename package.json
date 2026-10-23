@@ -6,6 +6,11 @@
     "app",
     "server"
   ],
+  "overrides": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3"
+  },
   "engines": {
     "node": "22.x",
     "npm": ">=10.0.0"
